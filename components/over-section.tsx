@@ -5,7 +5,7 @@ import { motion, useScroll, useTransform } from 'framer-motion'
 
 const stats = [
   { value: '20 jaar', label: 'Ervaring' },
-  { value: 'Solo', label: 'Werkwijze' },
+  { value: 'Freelance/Interim', label: 'Werkwijze' },
   { value: 'Den Haag', label: 'Gevestigd' },
 ]
 
