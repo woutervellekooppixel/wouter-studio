@@ -14,7 +14,7 @@ export default function Nav() {
   const [open, setOpen] = useState(false)
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-[#e8e8e8]">
+    <header className="fixed top-0 left-0 right-0 z-[200] bg-white/95 backdrop-blur-sm border-b border-[#e8e8e8]">
       <nav className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
         <Link
           href="#"
