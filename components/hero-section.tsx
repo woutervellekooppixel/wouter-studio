@@ -3,6 +3,7 @@
 import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { TypewriterText } from '@/components/motion'
+import HeroCanvas from '@/components/hero-canvas'
 
 export default function HeroSection() {
   const ref = useRef<HTMLElement>(null)
@@ -12,21 +13,21 @@ export default function HeroSection() {
     offset: ['start start', 'end start'],
   })
 
-  // WOUTER.STUDIO drifts down and fades as you scroll away
   const logoY = useTransform(scrollYProgress, [0, 1], [0, 180])
   const logoOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0])
 
   return (
-    <section ref={ref} className="min-h-[85vh] flex items-center bg-white relative">
-      <div className="max-w-5xl mx-auto px-6 py-32 w-full">
+    <section ref={ref} className="relative min-h-[90vh] flex items-center bg-white overflow-hidden">
+      <HeroCanvas />
 
+      <div className="relative z-10 max-w-5xl mx-auto px-6 py-32 w-full">
         {/* WOUTER.STUDIO — drifts on scroll */}
         <motion.div
           style={{ y: logoY, opacity: logoOpacity }}
           className="mb-10"
         >
           <span
-            className="tracking-tight text-[#111] select-none flex items-baseline"
+            className="tracking-tight text-[#111] flex items-baseline"
             style={{ fontSize: 'clamp(28px, 4vw, 52px)' }}
           >
             <span className="font-extrabold">WOUTER</span>
@@ -35,8 +36,8 @@ export default function HeroSection() {
         </motion.div>
 
         <h1
-          className="font-black text-[#111] leading-[1.0] tracking-[-0.03em] mb-10 max-w-4xl"
-          style={{ fontSize: 'clamp(56px, 7vw, 96px)' }}
+          className="font-black text-[#111] leading-[1.0] tracking-[-0.03em] mb-10 max-w-2xl"
+          style={{ fontSize: 'clamp(48px, 6vw, 88px)' }}
         >
           <TypewriterText
             text="Vastgelopen op het gebied van design of strategie?"
@@ -45,7 +46,7 @@ export default function HeroSection() {
           />
         </h1>
 
-        <p className="text-[17px] text-[#555] max-w-xl leading-[1.75] mb-4">
+        <p className="text-[17px] text-[#555] max-w-md leading-[1.75] mb-4">
           Bij rebranding, fusies en reorganisaties is creatieve aansturing
           vaak het eerste dat ontbreekt — en het laatste waar iemand aan
           denkt. Daar kom ik in beeld.

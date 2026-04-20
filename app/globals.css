@@ -30,15 +30,6 @@ body {
   animation: blink 0.75s step-end infinite;
 }
 
-@keyframes logo-scroll {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-
-.animate-logo-scroll {
-  animation: logo-scroll 30s linear infinite;
-}
-
 @keyframes fade-in {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -46,4 +37,13 @@ body {
 
 .animate-fade-in {
   animation: fade-in 0.5s ease;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-25%); }
+}
+
+.animate-marquee {
+  animation: marquee 24s linear infinite;
 }
