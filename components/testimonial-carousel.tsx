@@ -1,5 +1,6 @@
 'use client'
-import { useState, useEffect, useCallback } from 'react'
+
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 const testimonials = [
@@ -29,26 +30,27 @@ export default function TestimonialCarousel() {
   const [active, setActive] = useState(0)
   const [direction, setDirection] = useState(1)
 
-  const go = useCallback((next: number) => {
+  const go = (next: number) => {
     setDirection(next > active ? 1 : -1)
     setActive(next)
-  }, [active])
+  }
 
   useEffect(() => {
     const timer = setInterval(() => {
-      go((active + 1) % testimonials.length)
+      setDirection(1)
+      setActive(i => (i + 1) % testimonials.length)
     }, 6000)
     return () => clearInterval(timer)
-  }, [active, go])
+  }, [])
 
   return (
-    <section className="bg-white py-24 border-t border-[#e8e8e8] overflow-hidden">
+    <section className="bg-white py-24 border-t border-[#e8e8e8]">
       <div className="max-w-4xl mx-auto px-6">
         <p className="text-[11px] tracking-[0.12em] uppercase text-[#999] mb-16">
           Wat anderen zeggen
         </p>
 
-        <div className="relative min-h-[200px]">
+        <div className="relative min-h-[200px] overflow-hidden">
           <AnimatePresence mode="wait" custom={direction}>
             <motion.div
               key={active}
@@ -63,7 +65,10 @@ export default function TestimonialCarousel() {
               exit="exit"
               transition={{ duration: 0.4, ease: 'easeOut' }}
             >
-              <blockquote className="text-[clamp(20px,2.5vw,30px)] font-normal text-[#111] leading-[1.4] tracking-tight mb-8">
+              <blockquote
+                className="font-normal text-[#111] leading-[1.4] tracking-tight mb-8"
+                style={{ fontSize: 'clamp(20px, 2.5vw, 30px)' }}
+              >
                 "{testimonials[active].quote}"
               </blockquote>
               <p className="text-[14px] font-medium text-[#111]">
@@ -81,31 +86,26 @@ export default function TestimonialCarousel() {
             <button
               key={i}
               onClick={() => go(i)}
-              className="relative h-[2px] bg-[#e8e8e8] transition-all duration-300"
-              style={{ width: i === active ? '48px' : '24px' }}
               aria-label={`Testimonial ${i + 1}`}
-            >
-              {i === active && (
-                <motion.div
-                  className="absolute inset-0 bg-[#111]"
-                  layoutId="testimonial-indicator"
-                  transition={{ duration: 0.3 }}
-                />
-              )}
-            </button>
+              className="relative h-[2px] shrink-0 transition-all duration-300"
+              style={{
+                width: i === active ? '48px' : '24px',
+                backgroundColor: i === active ? '#111' : '#e8e8e8',
+              }}
+            />
           ))}
 
           <div className="flex gap-4 ml-auto">
             <button
               onClick={() => go((active - 1 + testimonials.length) % testimonials.length)}
-              className="text-[#ccc] hover:text-[#111] transition-colors duration-200 text-lg"
+              className="text-[#ccc] hover:text-[#111] transition-colors duration-200 text-lg leading-none"
               aria-label="Vorige"
             >
               ←
             </button>
             <button
               onClick={() => go((active + 1) % testimonials.length)}
-              className="text-[#ccc] hover:text-[#111] transition-colors duration-200 text-lg"
+              className="text-[#ccc] hover:text-[#111] transition-colors duration-200 text-lg leading-none"
               aria-label="Volgende"
             >
               →
