@@ -27,17 +27,19 @@ const diensten = [
 
 export default function ServicesSection() {
   return (
-    <section className="bg-[#111] scroll-mt-16" id="wat-ik-doe">
-      <div className="max-w-5xl mx-auto px-6 pt-24 pb-0">
-        <p className="text-[11px] tracking-[0.14em] uppercase text-[#444] mb-6">Diensten</p>
-        <h2
-          className="font-black text-white leading-[1.0] tracking-tight mb-16"
-          style={{ fontSize: 'clamp(48px, 6vw, 80px)' }}
-        >
-          Wat ik doe.
-        </h2>
+    <section className="bg-white scroll-mt-16" id="wat-ik-doe">
+      <div className="py-16 px-6">
+        <div className="max-w-5xl mx-auto">
+          <p className="text-[11px] tracking-[0.14em] uppercase text-[#999] mb-6">Diensten</p>
+          <h2
+            className="font-black text-[#111] leading-[1.0] tracking-tight"
+            style={{ fontSize: 'clamp(48px, 6vw, 80px)' }}
+          >
+            Wat ik doe.
+          </h2>
+        </div>
       </div>
-      <div className="max-w-5xl mx-auto px-6 pt-0">
+      <div className="max-w-5xl mx-auto px-6">
         {diensten.map((d, i) => (
           <motion.div
             key={i}
