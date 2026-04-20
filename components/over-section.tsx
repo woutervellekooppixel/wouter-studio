@@ -39,7 +39,7 @@ export default function OverSection() {
             <motion.img
               src="/wouter.png"
               alt="Wouter Vellekoop"
-              className="absolute inset-0 w-full h-full object-cover scale-[1.18]"
+              className="absolute inset-0 w-full h-full object-cover object-top scale-[1.18]"
               style={{ y }}
             />
           </div>
