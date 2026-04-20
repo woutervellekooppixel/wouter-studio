@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 
 const testimonials = [
   {
@@ -35,38 +36,48 @@ export default function TestimonialCarousel() {
     return () => clearInterval(timer)
   }, [])
 
-  const t = testimonials[current]
-
   return (
-    <div>
-      <div
-        key={current}
-        className="animate-fade-in grid grid-cols-1 md:grid-cols-[1fr_200px] gap-8 md:gap-12 items-start min-h-[160px]"
-      >
-        <blockquote
-          className="font-normal text-[#111] leading-[1.5] tracking-[-0.01em]"
-          style={{ fontSize: 'clamp(18px, 2.2vw, 22px)' }}
-        >
-          &ldquo;{t.quote}&rdquo;
-        </blockquote>
-        <div className="md:text-right">
-          <p className="text-[14px] font-medium text-[#111]">{t.naam}</p>
-          <p className="text-[13px] text-[#999] mt-1">{t.functie}</p>
-        </div>
+    <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+    >
+      <div className="min-h-[200px] mb-10 relative">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={current}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.4, ease: 'easeOut' }}
+          >
+            <blockquote
+              className="font-normal text-[#111] leading-[1.35] tracking-tight mb-8"
+              style={{ fontSize: 'clamp(20px, 2.8vw, 32px)' }}
+            >
+              &ldquo;{testimonials[current].quote}&rdquo;
+            </blockquote>
+            <p className="text-[14px] font-medium text-[#111]">{testimonials[current].naam}</p>
+            <p className="text-[13px] text-[#999] mt-1">{testimonials[current].functie}</p>
+          </motion.div>
+        </AnimatePresence>
       </div>
 
-      <div className="flex items-center gap-2 mt-10">
+      <div className="flex items-center gap-3">
         {testimonials.map((_, i) => (
           <button
             key={i}
             onClick={() => setCurrent(i)}
             aria-label={`Testimonial ${i + 1}`}
-            className={`w-2 h-2 rounded-full transition-colors duration-300 ${
-              i === current ? 'bg-[#111]' : 'bg-[#ddd] hover:bg-[#bbb]'
+            className={`transition-all duration-300 rounded-full ${
+              i === current
+                ? 'w-5 h-2 bg-[#111]'
+                : 'w-2 h-2 bg-[#ccc] hover:bg-[#999]'
             }`}
           />
         ))}
       </div>
-    </div>
+    </motion.div>
   )
 }
