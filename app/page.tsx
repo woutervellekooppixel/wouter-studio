@@ -6,40 +6,56 @@ import LogosSection from '@/components/logos-section'
 import TestimonialCarousel from '@/components/testimonial-carousel'
 import ContactFooter from '@/components/contact-footer'
 
+const shadow = '0 -4px 20px rgba(0,0,0,0.06)'
+
 export default function HomePage() {
   return (
     <>
-      {/* ── Hero — wit ───────────────────────────────────── */}
-      <HeroSection />
+      {/* ── Hero — z-10 ──────────────────────────────────── */}
+      <div style={{ position: 'sticky', top: 0, zIndex: 10 }}>
+        <HeroSection />
+      </div>
 
-      {/* ── Diensten worklist — wit ───────────────────────── */}
-      <ServicesSection />
+      {/* ── Wat ik doe — z-20 ────────────────────────────── */}
+      <div style={{ position: 'sticky', top: 0, zIndex: 20, boxShadow: shadow }}>
+        <ServicesSection />
+      </div>
 
-      {/* ── Hoe ik werk ──────────────────────────────────── */}
-      <section id="hoe-ik-werk" className="bg-white py-24 px-6 scroll-mt-16">
-        <div className="max-w-5xl mx-auto">
-          <p className="text-[11px] tracking-[0.14em] uppercase text-[#999] mb-4">Aanpak</p>
-          <h2
-            className="font-black text-[#111] tracking-tight leading-none mb-16"
-            style={{ fontSize: 'clamp(40px, 5vw, 64px)' }}
-          >
-            Hoe ik werk.
-          </h2>
-          <HoeIkWerkSection />
-        </div>
-      </section>
+      {/* ── Hoe ik werk — z-30 ───────────────────────────── */}
+      <div style={{ position: 'sticky', top: 0, zIndex: 30, boxShadow: shadow }}>
+        <section id="hoe-ik-werk" className="bg-white py-24 px-6 scroll-mt-16">
+          <div className="max-w-5xl mx-auto">
+            <p className="text-[11px] tracking-[0.14em] uppercase text-[#999] mb-4">Aanpak</p>
+            <h2
+              className="font-black text-[#111] tracking-tight leading-none mb-16"
+              style={{ fontSize: 'clamp(40px, 5vw, 64px)' }}
+            >
+              Hoe ik werk.
+            </h2>
+            <HoeIkWerkSection />
+          </div>
+        </section>
+      </div>
 
-      {/* ── Over mij ─────────────────────────────────────── */}
-      <OverSection />
+      {/* ── Over mij — z-40 ──────────────────────────────── */}
+      <div style={{ position: 'sticky', top: 0, zIndex: 40, boxShadow: shadow }}>
+        <OverSection />
+      </div>
 
-      {/* ── Opdrachtgevers — ticker ──────────────────────── */}
-      <LogosSection />
+      {/* ── Opdrachtgevers — z-50 ────────────────────────── */}
+      <div style={{ position: 'sticky', top: 0, zIndex: 50, boxShadow: shadow }}>
+        <LogosSection />
+      </div>
 
-      {/* ── Testimonials — wit, carousel ─────────────────── */}
-      <TestimonialCarousel />
+      {/* ── Testimonials — z-60 ──────────────────────────── */}
+      <div style={{ position: 'sticky', top: 0, zIndex: 60, boxShadow: shadow }}>
+        <TestimonialCarousel />
+      </div>
 
-      {/* ── Contact — wit ────────────────────────────────── */}
-      <ContactFooter />
+      {/* ── Contact — z-70 ───────────────────────────────── */}
+      <div style={{ position: 'sticky', top: 0, zIndex: 70, boxShadow: shadow }}>
+        <ContactFooter />
+      </div>
     </>
   )
 }
