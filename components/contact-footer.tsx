@@ -38,15 +38,15 @@ export default function ContactFooter() {
               <div>
                 <p className={labelClass}>Email</p>
                 <a
-                  href="mailto:wouter@wouter.studio"
+                  href="mailto:mail@wouter.studio"
                   className="text-[14px] text-[#C4714A] hover:opacity-70 transition-opacity duration-200"
                 >
-                  wouter@wouter.studio
+                  mail@wouter.studio
                 </a>
               </div>
               <div>
                 <p className={labelClass}>Telefoon</p>
-                <p className="text-[14px] text-[#111]">+31 6 00 000 000</p>
+                <p className="text-[14px] text-[#111]">+31(0)6 16 290 418</p>
               </div>
             </div>
           </div>

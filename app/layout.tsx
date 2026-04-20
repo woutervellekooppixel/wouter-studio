@@ -36,7 +36,7 @@ export default function RootLayout({
                 wouter.photo →
               </Link>
               <Link
-                href="mailto:wouter@wouter.studio"
+                href="mailto:mail@wouter.studio"
                 className="text-[#999] hover:text-[#111] transition-colors"
               >
                 wouter@wouter.studio
