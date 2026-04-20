@@ -41,7 +41,7 @@ export default function HoeIkWerkSection() {
                 {w.titel}
               </span>
             </div>
-            <span className="text-[13px] text-[#888] text-right max-w-[240px] leading-relaxed hidden lg:block shrink-0 ml-8">
+            <span className="text-[13px] text-[#555] text-right max-w-[240px] leading-relaxed hidden lg:block shrink-0 ml-8">
               {w.sub}
             </span>
           </motion.div>
