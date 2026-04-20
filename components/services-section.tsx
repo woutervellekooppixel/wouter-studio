@@ -27,48 +27,38 @@ const diensten = [
 
 export default function ServicesSection() {
   return (
-    <section className="bg-white scroll-mt-16" id="wat-ik-doe">
-      <div className="py-16 px-6">
-        <div className="max-w-5xl mx-auto">
-          <p className="text-[11px] tracking-[0.14em] uppercase text-[#999] mb-6">Diensten</p>
-          <h2
-            className="font-black text-[#111] leading-[1.0] tracking-tight"
-            style={{ fontSize: 'clamp(48px, 6vw, 80px)' }}
-          >
-            Wat ik doe.
-          </h2>
-        </div>
-      </div>
-      <div className="max-w-5xl mx-auto px-6">
-        {diensten.map((d, i) => (
-          <motion.div
-            key={i}
-            className="border-t border-[#2a2a2a] py-10 flex items-start justify-between group cursor-default"
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-60px' }}
-            transition={{ duration: 0.35, delay: i * 0.06, ease: 'easeOut' }}
-          >
-            <div className="flex-1 pr-8">
-              <p className="text-[11px] tracking-[0.12em] uppercase text-[#444] mb-3">
+    <section className="bg-white py-24 px-6 scroll-mt-16" id="wat-ik-doe">
+      <div className="max-w-5xl mx-auto">
+        <p className="text-[11px] tracking-[0.14em] uppercase text-[#999] mb-4">Diensten</p>
+        <h2
+          className="font-black text-[#111] leading-[1.0] tracking-tight mb-16"
+          style={{ fontSize: 'clamp(40px, 5vw, 64px)' }}
+        >
+          Wat ik doe.
+        </h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {diensten.map((d, i) => (
+            <motion.div
+              key={i}
+              className="border border-[#e8e8e8] p-8"
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-60px' }}
+              transition={{ duration: 0.35, delay: i * 0.08, ease: 'easeOut' }}
+            >
+              <p className="text-[11px] tracking-[0.12em] uppercase text-[#999]">
                 {d.label}
               </p>
-              <h3
-                className="font-black text-white tracking-tight leading-none mb-4 group-hover:translate-x-1 transition-transform duration-300"
-                style={{ fontSize: 'clamp(24px, 3vw, 40px)' }}
-              >
-                {d.titel}.
+              <h3 className="text-[22px] font-black text-[#111] mt-2 mb-4 leading-tight">
+                {d.titel}
               </h3>
-              <p className="text-[15px] text-[#888] leading-relaxed max-w-xl">
+              <p className="text-[15px] text-[#555] leading-relaxed">
                 {d.body}
               </p>
-            </div>
-            <span className="text-[#333] group-hover:text-white text-2xl mt-2 transition-colors duration-300 shrink-0">
-              →
-            </span>
-          </motion.div>
-        ))}
-        <div className="border-t border-[#2a2a2a] mb-8" />
+            </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   )
