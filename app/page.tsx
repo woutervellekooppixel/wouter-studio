@@ -2,6 +2,7 @@ import HeroSection from '@/components/hero-section'
 import ServicesSection from '@/components/services-section'
 import HoeIkWerkSection from '@/components/hoe-ik-werk-section'
 import GrainCanvas from '@/components/grain-canvas'
+import OverSection from '@/components/over-section'
 import LogosSection from '@/components/logos-section'
 import TestimonialCarousel from '@/components/testimonial-carousel'
 
@@ -28,6 +29,9 @@ export default function HomePage() {
           <HoeIkWerkSection />
         </div>
       </section>
+
+      {/* ── Over mij ─────────────────────────────────────── */}
+      <OverSection />
 
       {/* ── Opdrachtgevers — wit ─────────────────────────── */}
       <section className="bg-white py-20 border-t border-[#e8e8e8]">
