@@ -96,20 +96,6 @@ export default function OverSection() {
                 </div>
               ))}
             </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: 0.44, ease: 'easeOut' }}
-            >
-              <a
-                href="/over"
-                className="inline-block mt-10 text-[13px] tracking-[0.08em] uppercase text-[#111] border-b border-[#111] pb-0.5 hover:opacity-50 transition-opacity duration-200"
-              >
-                Meer over mij →
-              </a>
-            </motion.div>
           </div>
 
         </div>
