@@ -5,6 +5,7 @@ import GrainCanvas from '@/components/grain-canvas'
 import OverSection from '@/components/over-section'
 import LogosSection from '@/components/logos-section'
 import TestimonialCarousel from '@/components/testimonial-carousel'
+import ContactFooter from '@/components/contact-footer'
 
 export default function HomePage() {
   return (
@@ -46,28 +47,8 @@ export default function HomePage() {
       {/* ── Testimonials — wit, carousel ─────────────────── */}
       <TestimonialCarousel />
 
-      {/* ── Footer CTA — zwart ───────────────────────────── */}
-      <section id="contact" className="bg-[#111] scroll-mt-16">
-        <div className="max-w-4xl mx-auto px-6 py-24">
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
-            <div>
-              <h2
-                className="font-black text-white tracking-tight leading-none mb-4"
-                style={{ fontSize: 'clamp(32px, 4vw, 56px)' }}
-              >
-                Vastgelopen?<br />Laten we praten.
-              </h2>
-              <p className="text-[#555] text-[14px]">Een eerste gesprek is altijd vrijblijvend.</p>
-            </div>
-            <a
-              href="mailto:wouter@wouter.studio"
-              className="shrink-0 border border-white text-white text-[11px] tracking-[0.1em] uppercase px-8 py-4 hover:bg-white hover:text-[#111] transition-colors duration-200"
-            >
-              Neem contact op
-            </a>
-          </div>
-        </div>
-      </section>
+      {/* ── Contact — wit ────────────────────────────────── */}
+      <ContactFooter />
     </>
   )
 }
