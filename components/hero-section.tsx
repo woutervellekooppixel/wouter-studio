@@ -7,15 +7,6 @@ import HeroCanvas from '@/components/hero-canvas'
 
 export default function HeroSection() {
   const ref = useRef<HTMLElement>(null)
-
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start start', 'end start'],
-  })
-
-  const logoY = useTransform(scrollYProgress, [0, 1], [0, 180])
-  const logoOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0])
-
   const { scrollY } = useScroll()
   const h1Y = useTransform(scrollY, [0, 400], [0, -60])
 
@@ -24,21 +15,7 @@ export default function HeroSection() {
       <HeroCanvas />
 
       <div className="relative z-10 max-w-5xl mx-auto px-6 py-32 w-full">
-        {/* WOUTER.STUDIO — drifts on scroll */}
-        <motion.div
-          style={{ y: logoY, opacity: logoOpacity }}
-          className="mb-10"
-        >
-          <span
-            className="tracking-tight text-[#111] flex items-baseline"
-            style={{ fontSize: 'clamp(28px, 4vw, 52px)' }}
-          >
-            <span className="font-extrabold">WOUTER</span>
-            <span className="font-light">.STUDIO</span>
-          </span>
-        </motion.div>
-
-        <motion.div style={{ y: h1Y }}>
+<motion.div style={{ y: h1Y }}>
           <h1
             className="font-black text-[#111] leading-[1.0] tracking-[-0.03em] mb-10 max-w-2xl"
             style={{ fontSize: 'clamp(48px, 6vw, 88px)' }}
