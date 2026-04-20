@@ -34,16 +34,14 @@ export default function OverSection() {
       <div className="max-w-5xl mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 items-start">
 
-          {/* Foto links — parallax placeholder */}
-          <div className="relative overflow-hidden aspect-[3/4] bg-[#f0f0ee]">
-            <motion.div
-              className="absolute inset-0 scale-[1.18] flex items-end justify-center pb-6"
+          {/* Foto links — parallax */}
+          <div className="relative overflow-hidden aspect-[3/4]">
+            <motion.img
+              src="/wouter.png"
+              alt="Wouter Vellekoop"
+              className="absolute inset-0 w-full h-full object-cover scale-[1.18]"
               style={{ y }}
-            >
-              <p className="text-[11px] tracking-[0.1em] uppercase text-[#bbb]">
-                Portretfoto volgt
-              </p>
-            </motion.div>
+            />
           </div>
 
           {/* Tekst rechts */}
