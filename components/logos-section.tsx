@@ -13,7 +13,7 @@ const logos = [
 
 export default function LogosSection() {
   return (
-    <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-10 md:gap-x-20 md:gap-y-12">
+    <div className="flex flex-wrap items-center justify-center gap-x-16 gap-y-10 md:gap-x-16 md:gap-y-12">
       {logos.map((logo, i) => (
         <motion.img
           key={logo.alt}
@@ -24,7 +24,7 @@ export default function LogosSection() {
           whileHover={{ opacity: 0.9, filter: 'grayscale(0)' }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.5, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
-          className="h-16 w-auto object-contain grayscale"
+          className="h-14 w-auto object-contain grayscale"
           style={{ filter: 'grayscale(1)' }}
         />
       ))}
