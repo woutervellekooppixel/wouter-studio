@@ -34,15 +34,8 @@ export default function HomePage() {
       {/* ── Over mij ─────────────────────────────────────── */}
       <OverSection />
 
-      {/* ── Opdrachtgevers — wit ─────────────────────────── */}
-      <section className="bg-white py-20 border-t border-[#e8e8e8]">
-        <div className="max-w-4xl mx-auto px-6">
-          <p className="text-[11px] tracking-[0.12em] uppercase text-[#999] font-normal mb-12 text-center">
-            Een greep uit mijn opdrachtgevers
-          </p>
-          <LogosSection />
-        </div>
-      </section>
+      {/* ── Opdrachtgevers — ticker ──────────────────────── */}
+      <LogosSection />
 
       {/* ── Testimonials — wit, carousel ─────────────────── */}
       <TestimonialCarousel />
