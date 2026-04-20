@@ -16,6 +16,9 @@ export default function HeroSection() {
   const logoY = useTransform(scrollYProgress, [0, 1], [0, 180])
   const logoOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0])
 
+  const { scrollY } = useScroll()
+  const h1Y = useTransform(scrollY, [0, 400], [0, -60])
+
   return (
     <section ref={ref} className="relative min-h-[90vh] flex items-center bg-white overflow-hidden">
       <HeroCanvas />
@@ -35,16 +38,18 @@ export default function HeroSection() {
           </span>
         </motion.div>
 
-        <h1
-          className="font-black text-[#111] leading-[1.0] tracking-[-0.03em] mb-10 max-w-2xl"
-          style={{ fontSize: 'clamp(48px, 6vw, 88px)' }}
-        >
-          <TypewriterText
-            text="Vastgelopen op het gebied van design of strategie?"
-            startDelay={0.3}
-            speed={40}
-          />
-        </h1>
+        <motion.div style={{ y: h1Y }}>
+          <h1
+            className="font-black text-[#111] leading-[1.0] tracking-[-0.03em] mb-10 max-w-2xl"
+            style={{ fontSize: 'clamp(48px, 6vw, 88px)' }}
+          >
+            <TypewriterText
+              text="Vastgelopen op het gebied van design of strategie?"
+              startDelay={0.3}
+              speed={40}
+            />
+          </h1>
+        </motion.div>
 
         <p className="text-[17px] text-[#555] max-w-md leading-[1.75] mb-4">
           Bij rebranding, fusies en reorganisaties is creatieve aansturing
