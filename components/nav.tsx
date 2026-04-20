@@ -29,7 +29,7 @@ export default function Nav() {
             <li key={href}>
               <a
                 href={href}
-                className="text-sm font-medium text-[#999] hover:text-[#111] transition-colors"
+                className="text-[11px] tracking-[0.1em] uppercase font-medium text-[#999] hover:text-[#111] transition-colors"
               >
                 {label}
               </a>
@@ -65,7 +65,7 @@ export default function Nav() {
               <li key={href}>
                 <a
                   href={href}
-                  className="text-sm font-medium text-[#999] hover:text-[#111] transition-colors"
+                  className="text-[11px] tracking-[0.1em] uppercase font-medium text-[#999] hover:text-[#111] transition-colors"
                   onClick={() => setOpen(false)}
                 >
                   {label}
