@@ -5,37 +5,18 @@
   --color-foreground: #111111;
   --color-accent: #C4714A;
   --color-muted: #999999;
-  --color-border: #e5e5e5;
-  --font-sans: var(--font-geist-sans);
-}
-
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(18px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  --color-border: #e8e8e8;
 }
 
 body {
   background-color: #ffffff;
   color: #111111;
+  font-family: ui-sans-serif, system-ui, sans-serif;
   font-size: 17px;
-  line-height: 1.7;
+  line-height: 1.75;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
-.fade-up {
-  animation: fadeUp 0.65s ease-out both;
-}
-.fade-up-1 { animation-delay: 0.05s; }
-.fade-up-2 { animation-delay: 0.15s; }
-.fade-up-3 { animation-delay: 0.28s; }
-.fade-up-4 { animation-delay: 0.42s; }
 
 @keyframes blink {
   0%, 100% { opacity: 1; }
@@ -47,4 +28,22 @@ body {
   margin-left: 1px;
   font-weight: 300;
   animation: blink 0.75s step-end infinite;
+}
+
+@keyframes logo-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.animate-logo-scroll {
+  animation: logo-scroll 30s linear infinite;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.5s ease;
 }
