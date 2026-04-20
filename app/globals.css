@@ -16,7 +16,6 @@ body {
   line-height: 1.75;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  cursor: none;
 }
 
 @keyframes blink {
@@ -47,6 +46,10 @@ body {
 
 .animate-marquee {
   animation: marquee 24s linear infinite;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  body { cursor: none; }
 }
 
 @keyframes logoTicker {
