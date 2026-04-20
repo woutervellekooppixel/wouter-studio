@@ -1,6 +1,5 @@
 'use client'
-
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 const testimonials = [
@@ -27,57 +26,93 @@ const testimonials = [
 ]
 
 export default function TestimonialCarousel() {
-  const [current, setCurrent] = useState(0)
+  const [active, setActive] = useState(0)
+  const [direction, setDirection] = useState(1)
+
+  const go = useCallback((next: number) => {
+    setDirection(next > active ? 1 : -1)
+    setActive(next)
+  }, [active])
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrent(i => (i + 1) % testimonials.length)
+      go((active + 1) % testimonials.length)
     }, 6000)
     return () => clearInterval(timer)
-  }, [])
+  }, [active, go])
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.3 }}
-      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-    >
-      <div className="min-h-[200px] mb-10 relative">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={current}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.4, ease: 'easeOut' }}
-          >
-            <blockquote
-              className="font-normal text-[#111] leading-[1.35] tracking-tight mb-8"
-              style={{ fontSize: 'clamp(20px, 2.8vw, 32px)' }}
-            >
-              &ldquo;{testimonials[current].quote}&rdquo;
-            </blockquote>
-            <p className="text-[14px] font-medium text-[#111]">{testimonials[current].naam}</p>
-            <p className="text-[13px] text-[#999] mt-1">{testimonials[current].functie}</p>
-          </motion.div>
-        </AnimatePresence>
-      </div>
+    <section className="bg-white py-24 border-t border-[#e8e8e8] overflow-hidden">
+      <div className="max-w-4xl mx-auto px-6">
+        <p className="text-[11px] tracking-[0.12em] uppercase text-[#999] mb-16">
+          Wat anderen zeggen
+        </p>
 
-      <div className="flex items-center gap-3">
-        {testimonials.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => setCurrent(i)}
-            aria-label={`Testimonial ${i + 1}`}
-            className={`transition-all duration-300 rounded-full ${
-              i === current
-                ? 'w-5 h-2 bg-[#111]'
-                : 'w-2 h-2 bg-[#ccc] hover:bg-[#999]'
-            }`}
-          />
-        ))}
+        <div className="relative min-h-[200px]">
+          <AnimatePresence mode="wait" custom={direction}>
+            <motion.div
+              key={active}
+              custom={direction}
+              variants={{
+                enter: (d: number) => ({ opacity: 0, x: d * 40 }),
+                center: { opacity: 1, x: 0 },
+                exit: (d: number) => ({ opacity: 0, x: d * -40 }),
+              }}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{ duration: 0.4, ease: 'easeOut' }}
+            >
+              <blockquote className="text-[clamp(20px,2.5vw,30px)] font-normal text-[#111] leading-[1.4] tracking-tight mb-8">
+                "{testimonials[active].quote}"
+              </blockquote>
+              <p className="text-[14px] font-medium text-[#111]">
+                {testimonials[active].naam}
+              </p>
+              <p className="text-[13px] text-[#999] mt-1">
+                {testimonials[active].functie}
+              </p>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        <div className="flex items-center gap-3 mt-12">
+          {testimonials.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => go(i)}
+              className="relative h-[2px] bg-[#e8e8e8] transition-all duration-300"
+              style={{ width: i === active ? '48px' : '24px' }}
+              aria-label={`Testimonial ${i + 1}`}
+            >
+              {i === active && (
+                <motion.div
+                  className="absolute inset-0 bg-[#111]"
+                  layoutId="testimonial-indicator"
+                  transition={{ duration: 0.3 }}
+                />
+              )}
+            </button>
+          ))}
+
+          <div className="flex gap-4 ml-auto">
+            <button
+              onClick={() => go((active - 1 + testimonials.length) % testimonials.length)}
+              className="text-[#ccc] hover:text-[#111] transition-colors duration-200 text-lg"
+              aria-label="Vorige"
+            >
+              ←
+            </button>
+            <button
+              onClick={() => go((active + 1) % testimonials.length)}
+              className="text-[#ccc] hover:text-[#111] transition-colors duration-200 text-lg"
+              aria-label="Volgende"
+            >
+              →
+            </button>
+          </div>
+        </div>
       </div>
-    </motion.div>
+    </section>
   )
 }

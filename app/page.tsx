@@ -40,14 +40,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Testimonials — wit, carousel ─────────────────── */}
-      <section className="bg-white py-24 border-t border-[#e8e8e8]">
-        <div className="max-w-4xl mx-auto px-6">
-          <p className="text-[11px] tracking-[0.12em] uppercase text-[#999] font-normal mb-16">
-            Wat anderen zeggen
-          </p>
-          <TestimonialCarousel />
-        </div>
-      </section>
+      <TestimonialCarousel />
 
       {/* ── Footer CTA — zwart ───────────────────────────── */}
       <section id="contact" className="bg-[#111] scroll-mt-16">
