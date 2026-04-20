@@ -26,7 +26,7 @@ export default function HoeIkWerkSection() {
       {werkwijzen.map((w, i) => (
         <div key={i} className="overflow-hidden" style={{ maxWidth: w.pct }}>
           <motion.div
-            className="bg-white flex items-center justify-between px-6 py-5"
+            className="bg-[#111] flex items-center justify-between px-6 py-5"
             style={{ minWidth: '560px' }}
             initial={{ x: '-100%' }}
             whileInView={{ x: 0 }}
@@ -34,10 +34,10 @@ export default function HoeIkWerkSection() {
             transition={{ duration: 0.65, delay: i * 0.12, ease: [0.16, 1, 0.3, 1] }}
           >
             <div className="flex items-center gap-10">
-              <span className="text-[11px] tracking-[0.1em] uppercase text-[#999] shrink-0">
+              <span className="text-[11px] tracking-[0.1em] uppercase text-[#555] shrink-0">
                 {String(i + 1).padStart(2, '0')}
               </span>
-              <span className="text-[17px] font-medium text-[#111] tracking-tight">
+              <span className="text-[17px] font-medium text-white tracking-tight">
                 {w.titel}
               </span>
             </div>

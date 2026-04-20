@@ -27,35 +27,46 @@ const diensten = [
 
 export default function ServicesSection() {
   return (
-    <section className="bg-white scroll-mt-16" id="wat-ik-doe">
-      <div className="max-w-5xl mx-auto px-6 pt-4">
+    <section className="bg-[#111] scroll-mt-16" id="wat-ik-doe">
+      <div className="max-w-5xl mx-auto px-6 pt-24 pb-0">
+        <p className="text-[11px] tracking-[0.14em] uppercase text-[#444] mb-6">Diensten</p>
+        <h2
+          className="font-black text-white leading-[1.0] tracking-tight mb-16"
+          style={{ fontSize: 'clamp(48px, 6vw, 80px)' }}
+        >
+          Wat ik doe.
+        </h2>
+      </div>
+      <div className="max-w-5xl mx-auto px-6 pt-0">
         {diensten.map((d, i) => (
           <motion.div
             key={i}
-            className="border-t border-[#e8e8e8] py-8 flex items-start justify-between group cursor-default"
+            className="border-t border-[#2a2a2a] py-10 flex items-start justify-between group cursor-default"
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-60px' }}
             transition={{ duration: 0.35, delay: i * 0.06, ease: 'easeOut' }}
           >
-            <div className="flex-1">
-              <p className="text-[11px] tracking-[0.12em] uppercase text-[#999] mb-3">{d.label}</p>
+            <div className="flex-1 pr-8">
+              <p className="text-[11px] tracking-[0.12em] uppercase text-[#444] mb-3">
+                {d.label}
+              </p>
               <h3
-                className="font-black text-[#111] tracking-tight leading-none mb-4 group-hover:translate-x-1 transition-transform duration-300"
+                className="font-black text-white tracking-tight leading-none mb-4 group-hover:translate-x-1 transition-transform duration-300"
                 style={{ fontSize: 'clamp(24px, 3vw, 40px)' }}
               >
                 {d.titel}.
               </h3>
-              <p className="text-[15px] text-[#555] leading-relaxed max-w-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 h-0 group-hover:h-auto overflow-hidden">
+              <p className="text-[15px] text-[#888] leading-relaxed max-w-xl">
                 {d.body}
               </p>
             </div>
-            <span className="text-[#ccc] group-hover:text-[#111] text-2xl ml-8 mt-1 transition-colors duration-300 shrink-0">
+            <span className="text-[#333] group-hover:text-white text-2xl mt-2 transition-colors duration-300 shrink-0">
               →
             </span>
           </motion.div>
         ))}
-        <div className="border-t border-[#e8e8e8] mb-8" />
+        <div className="border-t border-[#2a2a2a] mb-8" />
       </div>
     </section>
   )
