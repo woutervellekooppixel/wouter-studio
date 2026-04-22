@@ -1,109 +1,72 @@
-'use client'
-
-import { useActionState } from 'react'
-import { sendContactForm, type FormState } from '@/app/contact/actions'
-
-const initial: FormState = { status: 'idle' }
-
-const fieldClass = 'border border-[#e8e8e8] p-3 w-full text-base md:text-[15px] text-[#111] placeholder:text-[#ccc] focus:border-[#111] focus:outline-none'
-const labelClass = 'block text-[11px] tracking-[0.1em] uppercase text-[#999] mb-1.5'
+const contactItems = [
+  {
+    label: 'E-mail',
+    value: 'mail@wouter.studio',
+    href: 'mailto:mail@wouter.studio',
+  },
+  {
+    label: 'WhatsApp',
+    value: '+31 6 16 290 418',
+    href: 'https://wa.me/31616290418',
+  },
+  {
+    label: 'LinkedIn',
+    value: '/in/woutervellekoop',
+    href: 'https://www.linkedin.com/in/woutervellekoop/',
+  },
+  {
+    label: 'Fotografie',
+    value: 'wouter.photo',
+    href: 'https://wouter.photo',
+  },
+]
 
 export default function ContactFooter() {
-  const [state, action, pending] = useActionState(sendContactForm, initial)
-
   return (
-    <section id="contact" className="bg-white py-16 md:py-24 border-t border-[#e8e8e8] scroll-mt-16">
-      <div className="max-w-5xl mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20">
+    <section id="contact" className="bg-white border-t border-[#e8e8e8] scroll-mt-16">
+      <div className="max-w-5xl mx-auto px-6 py-16 md:py-24">
 
-          <div>
-            <p className="text-[11px] tracking-[0.14em] uppercase text-[#999] mb-4">Contact</p>
-            <h2
-              className="font-black text-[#111] leading-none tracking-tight mb-6"
-              style={{ fontSize: 'clamp(32px, 4vw, 52px)' }}
+        <p className="text-[11px] tracking-[0.14em] uppercase text-[#999] mb-8">↘ Contact</p>
+
+        <h2
+          className="font-black text-[#111] leading-none tracking-tight mb-6"
+          style={{ fontSize: 'clamp(40px, 6vw, 88px)' }}
+        >
+          Laten we<br />praten.
+        </h2>
+
+        <p className="text-[15px] text-[#999] mb-16 max-w-sm">
+          Een eerste gesprek is altijd vrijblijvend.<br />
+          Kies hoe je contact opneemt.
+        </p>
+
+        <div className="border-t border-[#e8e8e8]">
+          {contactItems.map(({ label, value, href }) => (
+            <a
+              key={label}
+              href={href}
+              target={href.startsWith('http') ? '_blank' : undefined}
+              rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
+              className="group flex items-center justify-between border-b border-[#e8e8e8] py-5 md:py-6 hover:pl-2 transition-all duration-200"
             >
-              Laten we praten.
-            </h2>
-            <p className="text-[15px] text-[#555] mb-10">
-              Een eerste gesprek is altijd vrijblijvend.
-            </p>
-
-            <div className="space-y-6">
-              <div>
-                <p className={labelClass}>Email</p>
-                <a
-                  href="mailto:mail@wouter.studio"
-                  className="text-[14px] text-[#C4714A] hover:opacity-70 transition-opacity duration-200"
+              <div className="flex items-baseline gap-6 md:gap-12">
+                <span className="text-[11px] uppercase tracking-widest text-[#999] w-20 md:w-28 shrink-0">
+                  {label}
+                </span>
+                <span
+                  className="font-black text-[#111] tracking-tight group-hover:text-[#C4714A] transition-colors duration-200"
+                  style={{ fontSize: 'clamp(18px, 2.5vw, 32px)' }}
                 >
-                  mail@wouter.studio
-                </a>
+                  {value}
+                </span>
               </div>
-              <div>
-                <p className={labelClass}>Telefoon</p>
-                <p className="text-[14px] text-[#111]">+31(0)6 16 290 418</p>
-              </div>
-            </div>
-          </div>
-
-          {state.status === 'success' ? (
-            <div className="flex items-start pt-2">
-              <div>
-                <p className="text-[17px] font-bold text-[#111] mb-2">Bericht ontvangen.</p>
-                <p className="text-[15px] text-[#555]">Ik neem zo snel mogelijk contact met je op.</p>
-              </div>
-            </div>
-          ) : (
-            <form action={action} className="space-y-5">
-              <div>
-                <label htmlFor="naam" className={labelClass}>Naam</label>
-                <input
-                  id="naam"
-                  name="naam"
-                  type="text"
-                  required
-                  autoComplete="name"
-                  placeholder="Jouw naam"
-                  className={fieldClass}
-                />
-              </div>
-              <div>
-                <label htmlFor="organisatie" className={labelClass}>Organisatie (optioneel)</label>
-                <input
-                  id="organisatie"
-                  name="organisatie"
-                  type="text"
-                  autoComplete="organization"
-                  placeholder="Jouw organisatie"
-                  className={fieldClass}
-                />
-              </div>
-              <div>
-                <label htmlFor="bericht" className={labelClass}>Bericht</label>
-                <textarea
-                  id="bericht"
-                  name="bericht"
-                  rows={5}
-                  required
-                  placeholder="Waar kan ik je mee helpen?"
-                  className={`${fieldClass} resize-none`}
-                />
-              </div>
-
-              {state.status === 'error' && (
-                <p className="text-[13px] text-[#C4714A]">{state.message}</p>
-              )}
-
-              <button
-                type="submit"
-                disabled={pending}
-                className="border border-[#111] text-[#111] text-[11px] tracking-[0.08em] uppercase px-7 py-3.5 hover:bg-[#111] hover:text-white transition-colors duration-200 w-full mt-6 disabled:opacity-40"
-              >
-                {pending ? 'Versturen…' : 'Verstuur'}
-              </button>
-            </form>
-          )}
-
+              <span className="text-[#ccc] group-hover:text-[#C4714A] group-hover:translate-x-1 transition-all duration-200 text-xl">
+                ↗
+              </span>
+            </a>
+          ))}
         </div>
+
       </div>
     </section>
   )
