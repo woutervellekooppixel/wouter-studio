@@ -13,13 +13,13 @@ export default function ContactFooter() {
     e.preventDefault()
   }
 
-  const fieldClass = 'border border-[#e8e8e8] p-3 w-full text-[15px] text-[#111] placeholder:text-[#ccc] focus:border-[#111] focus:outline-none'
+  const fieldClass = 'border border-[#e8e8e8] p-3 w-full text-base md:text-[15px] text-[#111] placeholder:text-[#ccc] focus:border-[#111] focus:outline-none'
   const labelClass = 'block text-[11px] tracking-[0.1em] uppercase text-[#999] mb-1.5'
 
   return (
-    <section id="contact" className="bg-white py-24 border-t border-[#e8e8e8] scroll-mt-16">
+    <section id="contact" className="bg-white py-16 md:py-24 border-t border-[#e8e8e8] scroll-mt-16">
       <div className="max-w-5xl mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20">
 
           {/* Links — info */}
           <div>

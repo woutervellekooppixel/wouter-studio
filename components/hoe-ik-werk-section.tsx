@@ -31,7 +31,7 @@ export default function HoeIkWerkSection() {
       <p className="text-[11px] tracking-[0.14em] uppercase text-[#999] mb-4">Aanpak</p>
 
       <h2
-        className="font-black text-[#111] tracking-tight leading-none mb-16"
+        className="font-black text-[#111] tracking-tight leading-none mb-10 md:mb-16"
         style={{ fontSize: 'clamp(40px, 5vw, 64px)' }}
       >
         {h2Words.map((word, i) => (
@@ -51,7 +51,7 @@ export default function HoeIkWerkSection() {
       {items.map((item, i) => (
         <motion.div
           key={i}
-          className="border-t border-[#e8e8e8] py-12 grid grid-cols-[80px_1fr_auto] gap-8 items-start"
+          className="border-t border-[#e8e8e8] py-8 md:py-12 grid grid-cols-[56px_1fr] md:grid-cols-[80px_1fr_auto] gap-6 md:gap-8 items-start"
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-60px' }}
@@ -66,7 +66,7 @@ export default function HoeIkWerkSection() {
 
           <div>
             <motion.h3
-              className="text-[22px] font-medium text-[#111] mb-3 leading-tight"
+              className="text-[18px] md:text-[22px] font-medium text-[#111] mb-3 leading-tight"
               initial={{ opacity: 0, x: -10 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: '-60px' }}
@@ -79,7 +79,7 @@ export default function HoeIkWerkSection() {
             </p>
           </div>
 
-          <span className="text-[11px] tracking-[0.12em] uppercase text-[#999] pt-1">
+          <span className="hidden md:block text-[11px] tracking-[0.12em] uppercase text-[#999] pt-1">
             {item.tag}
           </span>
         </motion.div>

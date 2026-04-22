@@ -44,7 +44,7 @@ export default function TestimonialCarousel() {
   }, [])
 
   return (
-    <section className="bg-white py-24 border-t border-[#e8e8e8]">
+    <section className="bg-white py-16 md:py-24 border-t border-[#e8e8e8]">
       <div className="max-w-4xl mx-auto px-6">
         <p className="text-[11px] tracking-[0.12em] uppercase text-[#999] mb-16">
           Wat anderen zeggen

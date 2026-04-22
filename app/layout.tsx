@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import Nav from '@/components/nav'
-import CursorFollower from '@/components/cursor-follower'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
@@ -18,7 +17,6 @@ export default function RootLayout({
   return (
     <html lang="nl" className="h-full scroll-smooth">
       <body className="min-h-full flex flex-col">
-        <CursorFollower />
         <Nav />
         <main className="flex-1 pt-16">{children}</main>
         <footer className="border-t border-[#e8e8e8]">

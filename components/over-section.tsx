@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 
 const stats = [
@@ -16,6 +16,14 @@ const alineas = [
 
 export default function OverSection() {
   const sectionRef = useRef<HTMLElement>(null)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768)
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
+  }, [])
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -28,7 +36,7 @@ export default function OverSection() {
     <section
       ref={sectionRef}
       id="over"
-      className="bg-white py-24 border-t border-[#e8e8e8] scroll-mt-16"
+      className="bg-white py-16 md:py-24 border-t border-[#e8e8e8] scroll-mt-16"
     >
       <div className="max-w-5xl mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 items-start">
@@ -39,7 +47,7 @@ export default function OverSection() {
               src="/wouter.png"
               alt="Wouter Vellekoop"
               className="absolute inset-0 w-full h-full object-cover object-top scale-[1.18]"
-              style={{ y }}
+              style={isMobile ? undefined : { y }}
             />
           </div>
 
@@ -80,7 +88,7 @@ export default function OverSection() {
             ))}
 
             <motion.div
-              className="grid grid-cols-3 gap-6 border-t border-[#e8e8e8] pt-8 mt-8"
+              className="grid grid-cols-2 gap-6 border-t border-[#e8e8e8] pt-8 mt-8"
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}

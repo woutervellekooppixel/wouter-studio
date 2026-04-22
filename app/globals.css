@@ -48,10 +48,6 @@ body {
   animation: marquee 24s linear infinite;
 }
 
-@media (hover: hover) and (pointer: fine) {
-  body { cursor: none; }
-}
-
 @keyframes logoTicker {
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); }

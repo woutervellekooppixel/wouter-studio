@@ -1,24 +1,33 @@
 'use client'
 
-import { useRef } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { TypewriterText } from '@/components/motion'
 import HeroCanvas from '@/components/hero-canvas'
 
 export default function HeroSection() {
   const ref = useRef<HTMLElement>(null)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768)
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
+  }, [])
+
   const { scrollY } = useScroll()
   const h1Y = useTransform(scrollY, [0, 400], [0, -60])
 
   return (
-    <section ref={ref} className="relative min-h-[90vh] flex items-center bg-white overflow-hidden">
+    <section ref={ref} className="relative min-h-[90vh] flex items-center bg-white overflow-hidden px-4 md:px-0">
       <HeroCanvas />
 
-      <div className="relative z-10 max-w-5xl mx-auto px-6 py-32 w-full">
-<motion.div style={{ y: h1Y }}>
+      <div className="relative z-10 max-w-5xl mx-auto px-6 py-16 md:py-32 w-full">
+<motion.div style={isMobile ? undefined : { y: h1Y }}>
           <h1
             className="font-black text-[#111] leading-[1.0] tracking-[-0.03em] mb-10 max-w-2xl"
-            style={{ fontSize: 'clamp(48px, 6vw, 88px)' }}
+            style={{ fontSize: 'clamp(36px, 6vw, 88px)' }}
           >
             <TypewriterText
               text="Vastgelopen op het gebied van design of strategie?"

@@ -31,7 +31,7 @@ export default function ContactForm() {
           type="text"
           required
           autoComplete="name"
-          className="w-full border border-[#e8e8e8] bg-white px-4 py-3 text-[15px] text-[#111] placeholder:text-[#bbb] focus:outline-none focus:border-[#111] focus:ring-0 transition-colors"
+          className="w-full border border-[#e8e8e8] bg-white px-4 py-3 text-base md:text-[15px] text-[#111] placeholder:text-[#bbb] focus:outline-none focus:border-[#111] focus:ring-0 transition-colors"
           placeholder="Je naam"
         />
       </div>
@@ -45,7 +45,7 @@ export default function ContactForm() {
           name="organisatie"
           type="text"
           autoComplete="organization"
-          className="w-full border border-[#e8e8e8] bg-white px-4 py-3 text-[15px] text-[#111] placeholder:text-[#bbb] focus:outline-none focus:border-[#111] focus:ring-0 transition-colors"
+          className="w-full border border-[#e8e8e8] bg-white px-4 py-3 text-base md:text-[15px] text-[#111] placeholder:text-[#bbb] focus:outline-none focus:border-[#111] focus:ring-0 transition-colors"
           placeholder="Je organisatie"
         />
       </div>
