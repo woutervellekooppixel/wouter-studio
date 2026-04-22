@@ -1,27 +1,21 @@
 'use client'
 
-import { useState } from 'react'
+import { useActionState } from 'react'
+import { sendContactForm, type FormState } from '@/app/contact/actions'
+
+const initial: FormState = { status: 'idle' }
+
+const fieldClass = 'border border-[#e8e8e8] p-3 w-full text-base md:text-[15px] text-[#111] placeholder:text-[#ccc] focus:border-[#111] focus:outline-none'
+const labelClass = 'block text-[11px] tracking-[0.1em] uppercase text-[#999] mb-1.5'
 
 export default function ContactFooter() {
-  const [form, setForm] = useState({ naam: '', organisatie: '', bericht: '' })
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
-  }
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-  }
-
-  const fieldClass = 'border border-[#e8e8e8] p-3 w-full text-base md:text-[15px] text-[#111] placeholder:text-[#ccc] focus:border-[#111] focus:outline-none'
-  const labelClass = 'block text-[11px] tracking-[0.1em] uppercase text-[#999] mb-1.5'
+  const [state, action, pending] = useActionState(sendContactForm, initial)
 
   return (
     <section id="contact" className="bg-white py-16 md:py-24 border-t border-[#e8e8e8] scroll-mt-16">
       <div className="max-w-5xl mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20">
 
-          {/* Links — info */}
           <div>
             <p className="text-[11px] tracking-[0.14em] uppercase text-[#999] mb-4">Contact</p>
             <h2
@@ -51,51 +45,63 @@ export default function ContactFooter() {
             </div>
           </div>
 
-          {/* Rechts — formulier */}
-          <form onSubmit={handleSubmit} className="space-y-5">
-            <div>
-              <label htmlFor="naam" className={labelClass}>Naam</label>
-              <input
-                id="naam"
-                name="naam"
-                type="text"
-                value={form.naam}
-                onChange={handleChange}
-                placeholder="Jouw naam"
-                className={fieldClass}
-              />
+          {state.status === 'success' ? (
+            <div className="flex items-start pt-2">
+              <div>
+                <p className="text-[17px] font-bold text-[#111] mb-2">Bericht ontvangen.</p>
+                <p className="text-[15px] text-[#555]">Ik neem zo snel mogelijk contact met je op.</p>
+              </div>
             </div>
-            <div>
-              <label htmlFor="organisatie" className={labelClass}>Organisatie (optioneel)</label>
-              <input
-                id="organisatie"
-                name="organisatie"
-                type="text"
-                value={form.organisatie}
-                onChange={handleChange}
-                placeholder="Jouw organisatie"
-                className={fieldClass}
-              />
-            </div>
-            <div>
-              <label htmlFor="bericht" className={labelClass}>Bericht</label>
-              <textarea
-                id="bericht"
-                name="bericht"
-                rows={5}
-                value={form.bericht}
-                onChange={handleChange}
-                placeholder="Waar kan ik je mee helpen?"
-                className={`${fieldClass} resize-none`}
-              />
-            </div>
-            <button
-              type="submit"
-              className="border border-[#111] text-[#111] text-[11px] tracking-[0.08em] uppercase px-7 py-3.5 hover:bg-[#111] hover:text-white transition-colors duration-200 w-full mt-6"
-            >
-              Verstuur
-            </button>
-          </form>
+          ) : (
+            <form action={action} className="space-y-5">
+              <div>
+                <label htmlFor="naam" className={labelClass}>Naam</label>
+                <input
+                  id="naam"
+                  name="naam"
+                  type="text"
+                  required
+                  autoComplete="name"
+                  placeholder="Jouw naam"
+                  className={fieldClass}
+                />
+              </div>
+              <div>
+                <label htmlFor="organisatie" className={labelClass}>Organisatie (optioneel)</label>
+                <input
+                  id="organisatie"
+                  name="organisatie"
+                  type="text"
+                  autoComplete="organization"
+                  placeholder="Jouw organisatie"
+                  className={fieldClass}
+                />
+              </div>
+              <div>
+                <label htmlFor="bericht" className={labelClass}>Bericht</label>
+                <textarea
+                  id="bericht"
+                  name="bericht"
+                  rows={5}
+                  required
+                  placeholder="Waar kan ik je mee helpen?"
+                  className={`${fieldClass} resize-none`}
+                />
+              </div>
+
+              {state.status === 'error' && (
+                <p className="text-[13px] text-[#C4714A]">{state.message}</p>
+              )}
+
+              <button
+                type="submit"
+                disabled={pending}
+                className="border border-[#111] text-[#111] text-[11px] tracking-[0.08em] uppercase px-7 py-3.5 hover:bg-[#111] hover:text-white transition-colors duration-200 w-full mt-6 disabled:opacity-40"
+              >
+                {pending ? 'Versturen…' : 'Verstuur'}
+              </button>
+            </form>
+          )}
 
         </div>
       </div>

@@ -1,7 +1,5 @@
 'use server'
 
-import { Resend } from 'resend'
-
 export type FormState =
   | { status: 'idle' }
   | { status: 'success' }
@@ -19,27 +17,34 @@ export async function sendContactForm(
     return { status: 'error', message: 'Vul je naam en bericht in.' }
   }
 
-  if (!process.env.RESEND_API_KEY) {
+  const apiKey = process.env.BREVO_API_KEY
+  if (!apiKey) {
     return { status: 'error', message: 'E-mail is nog niet geconfigureerd.' }
   }
 
-  const resend = new Resend(process.env.RESEND_API_KEY)
+  const textBody = [
+    `Naam: ${naam}`,
+    organisatie ? `Organisatie: ${organisatie}` : '',
+    `\nBericht:\n${bericht}`,
+  ].filter(Boolean).join('\n')
 
-  const { error } = await resend.emails.send({
-    from: 'contact@wouter.studio',
-    to: 'wouter@wouter.studio',
-    replyTo: naam,
-    subject: `Nieuw bericht via wouter.studio — ${naam}`,
-    text: [
-      `Naam: ${naam}`,
-      organisatie ? `Organisatie: ${organisatie}` : '',
-      `\nBericht:\n${bericht}`,
-    ]
-      .filter(Boolean)
-      .join('\n'),
+  const res = await fetch('https://api.brevo.com/v3/smtp/email', {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'api-key': apiKey,
+    },
+    body: JSON.stringify({
+      sender: { name: 'Wouter Studio', email: 'mail@wouter.studio' },
+      to: [{ email: 'mail@wouter.studio' }],
+      replyTo: { name: naam, email: 'mail@wouter.studio' },
+      subject: `Nieuw bericht via wouter.studio — ${naam}`,
+      textContent: textBody,
+    }),
   })
 
-  if (error) {
+  if (!res.ok) {
     return { status: 'error', message: 'Er is iets misgegaan. Probeer het later nog eens.' }
   }
 
