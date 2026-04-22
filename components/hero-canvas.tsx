@@ -1,191 +1,107 @@
 'use client'
-
-import { useEffect } from 'react'
-
-type RectShape = {
-  type: 'rect'
-  x: number; y: number
-  w: number; h: number
-  rot: number; vr: number
-  vx: number; vy: number
-  alpha: number
-}
-
-type CircleShape = {
-  type: 'circle'
-  x: number; y: number
-  r: number
-  vx: number; vy: number
-  alpha: number
-}
-
-type LineShape = {
-  type: 'line'
-  x1: number; y1: number
-  x2: number; y2: number
-  vx1: number; vx2: number
-  alpha: number; lw: number
-}
-
-type Shape = RectShape | CircleShape | LineShape
+import { useEffect, useRef } from 'react'
 
 export default function HeroCanvas() {
-  // Shapes animation
-  useEffect(() => {
-    const isMobile = window.innerWidth < 768
-    if (isMobile) return
+  const ref = useRef<HTMLCanvasElement>(null)
 
-    const canvas = document.getElementById('shapes-canvas') as HTMLCanvasElement
-    if (!canvas) return
+  useEffect(() => {
+    const canvas = ref.current!
     const ctx = canvas.getContext('2d')!
+    const hero = canvas.parentElement!
+    let W = 0, H = 0
+    let mouseX = 0, mouseY = 0
     let animId: number
 
-    const shapes: Shape[] = [
-      {
-        type: 'rect',
-        x: 0.68, y: -0.08,
-        w: 0.36, h: 0.58,
-        rot: 0.18, vr: 0.00015,
-        vx: 0.00004, vy: 0.00006,
-        alpha: 1.0,
-      },
-      {
-        type: 'rect',
-        x: 0.82, y: 0.45,
-        w: 0.26, h: 0.40,
-        rot: -0.22, vr: -0.00010,
-        vx: -0.00005, vy: -0.00004,
-        alpha: 0.07,
-      },
-      {
-        type: 'circle',
-        x: 0.90, y: 0.10,
-        r: 0.13,
-        vx: -0.00008, vy: 0.00010,
-        alpha: 0.09,
-      },
-      {
-        type: 'line',
-        x1: 0.50, y1: 0.0,
-        x2: 0.68, y2: 1.0,
-        vx1: 0.00006, vx2: -0.00004,
-        alpha: 0.08, lw: 1.5,
-      },
-      {
-        type: 'line',
-        x1: 0.54, y1: 0.0,
-        x2: 0.72, y2: 1.0,
-        vx1: 0.00003, vx2: -0.00007,
-        alpha: 0.05, lw: 2.5,
-      },
-    ]
-
     const resize = () => {
-      canvas.width = canvas.offsetWidth
-      canvas.height = canvas.offsetHeight
+      W = canvas.width = hero.offsetWidth
+      H = canvas.height = hero.offsetHeight
+      mouseX = W * 0.7
+      mouseY = H * 0.3
     }
     resize()
     window.addEventListener('resize', resize)
 
-    const draw = () => {
-      const W = canvas.width
-      const H = canvas.height
-      ctx.clearRect(0, 0, W, H)
+    hero.addEventListener('mousemove', (e: MouseEvent) => {
+      const r = hero.getBoundingClientRect()
+      mouseX = e.clientX - r.left
+      mouseY = e.clientY - r.top
+    })
 
-      shapes.forEach(s => {
-        ctx.save()
-        ctx.globalAlpha = s.alpha
+    const shapes = [
+      // Links
+      { type: 'triangle', x: W*0.06, y: H*0.18, size: 130, rot: 0.5,  alpha: 0.045 },
+      { type: 'rect',     x: W*0.14, y: H*0.62, w: 90,   h: 120, rot: 0.4,  alpha: 0.04  },
+      { type: 'diamond',  x: W*0.22, y: H*0.88, size: 70,  rot: 1.2,  alpha: 0.03  },
+      { type: 'rect',     x: W*0.30, y: H*0.38, w: 160,  h: 110, rot: -0.3, alpha: 0.05  },
+      { type: 'triangle', x: W*0.10, y: H*0.45, size: 55,  rot: 2.1,  alpha: 0.03  },
+      { type: 'diamond',  x: W*0.38, y: H*0.08, size: 90,  rot: 0.7,  alpha: 0.04  },
+      // Rechts
+      { type: 'triangle', x: W*0.75, y: H*0.10, size: 220, rot: 0.2,  alpha: 0.06  },
+      { type: 'rect',     x: W*0.88, y: H*0.55, w: 160,  h: 220, rot: -0.15, alpha: 0.05  },
+      { type: 'diamond',  x: W*0.60, y: H*0.78, size: 180, rot: 0.1,  alpha: 0.045 },
+      { type: 'triangle', x: W*0.96, y: H*0.28, size: 95,  rot: 1.9,  alpha: 0.04  },
+      { type: 'rect',     x: W*0.52, y: H*0.05, w: 85,   h: 115, rot: 0.6,  alpha: 0.035 },
+      { type: 'diamond',  x: W*0.72, y: H*0.68, size: 135, rot: 0.8,  alpha: 0.03  },
+    ] as any[]
 
-        if (s.type === 'rect') {
-          s.rot += s.vr
-          s.x += s.vx
-          s.y += s.vy
-          if (s.x > 1.2 || s.x < 0.35) s.vx *= -1
-          if (s.y > 1.1 || s.y < -0.4) s.vy *= -1
-          ctx.translate(s.x * W, s.y * H)
-          ctx.rotate(s.rot)
-          ctx.fillStyle = '#111'
-          ctx.fillRect(-s.w * W / 2, -s.h * H / 2, s.w * W, s.h * H)
-
-        } else if (s.type === 'circle') {
-          s.x += s.vx
-          s.y += s.vy
-          if (s.x > 1.15 || s.x < 0.55) s.vx *= -1
-          if (s.y > 0.5 || s.y < -0.1) s.vy *= -1
-          ctx.beginPath()
-          ctx.arc(s.x * W, s.y * H, s.r * Math.min(W, H), 0, Math.PI * 2)
-          ctx.fillStyle = '#111'
-          ctx.fill()
-
-        } else if (s.type === 'line') {
-          s.x1 += s.vx1
-          s.x2 += s.vx2
-          if (s.x1 > 0.72 || s.x1 < 0.42) s.vx1 *= -1
-          if (s.x2 > 0.82 || s.x2 < 0.55) s.vx2 *= -1
-          ctx.beginPath()
-          ctx.moveTo(s.x1 * W, 0)
-          ctx.lineTo(s.x2 * W, H)
-          ctx.strokeStyle = '#111'
-          ctx.lineWidth = s.lw
-          ctx.stroke()
-        }
-
-        ctx.restore()
-      })
-
-      animId = requestAnimationFrame(draw)
+    function drawShape(s: any) {
+      ctx.save()
+      ctx.globalAlpha = s.alpha
+      ctx.fillStyle = '#111'
+      ctx.translate(s.x, s.y)
+      ctx.rotate(s.rot)
+      if (s.type === 'triangle') {
+        ctx.beginPath()
+        ctx.moveTo(0, -s.size * 0.67)
+        ctx.lineTo(s.size * 0.58, s.size * 0.33)
+        ctx.lineTo(-s.size * 0.58, s.size * 0.33)
+        ctx.closePath()
+        ctx.fill()
+      } else if (s.type === 'rect') {
+        ctx.fillRect(-s.w / 2, -s.h / 2, s.w, s.h)
+      } else {
+        ctx.beginPath()
+        ctx.moveTo(0, -s.size)
+        ctx.lineTo(s.size * 0.6, 0)
+        ctx.lineTo(0, s.size)
+        ctx.lineTo(-s.size * 0.6, 0)
+        ctx.closePath()
+        ctx.fill()
+      }
+      ctx.restore()
     }
 
+    let t = 0
+    function draw() {
+      ctx.clearRect(0, 0, W, H)
+      shapes.forEach((s, i) => {
+        s.x += Math.sin(t * 0.006 + i * 2) * 0.25
+        s.y += Math.cos(t * 0.005 + i * 1.5) * 0.2
+
+        const angleToMouse = Math.atan2(mouseY - s.y, mouseX - s.x)
+        const targetRot = angleToMouse - Math.PI / 2
+        let diff = targetRot - s.rot
+        while (diff > Math.PI) diff -= Math.PI * 2
+        while (diff < -Math.PI) diff += Math.PI * 2
+        s.rot += diff * 0.07
+
+        drawShape(s)
+      })
+      t++
+      animId = requestAnimationFrame(draw)
+    }
     draw()
+
     return () => {
       cancelAnimationFrame(animId)
       window.removeEventListener('resize', resize)
     }
   }, [])
 
-  // Grain animation
-  useEffect(() => {
-    const canvas = document.getElementById('grain-canvas') as HTMLCanvasElement
-    if (!canvas) return
-    const ctx = canvas.getContext('2d')!
-    let timer: ReturnType<typeof setTimeout>
-
-    const resize = () => {
-      canvas.width = canvas.offsetWidth
-      canvas.height = canvas.offsetHeight
-    }
-    resize()
-    window.addEventListener('resize', resize)
-
-    const renderGrain = () => {
-      const W = canvas.width
-      const H = canvas.height
-      const imageData = ctx.createImageData(W, H)
-      const data = imageData.data
-
-      for (let i = 0; i < data.length; i += 4) {
-        const v = Math.random() * 255
-        data[i] = v
-        data[i + 1] = v
-        data[i + 2] = v
-        data[i + 3] = Math.random() * 14
-      }
-
-      ctx.putImageData(imageData, 0, 0)
-      timer = setTimeout(renderGrain, 90)
-    }
-
-    renderGrain()
-    return () => {
-      clearTimeout(timer)
-      window.removeEventListener('resize', resize)
-    }
-  }, [])
-
   return (
-    <>
-      <canvas id="shapes-canvas" className="absolute inset-0 w-full h-full" />
-      <canvas id="grain-canvas" className="absolute inset-0 w-full h-full pointer-events-none" />
-    </>
+    <canvas
+      ref={ref}
+      className="absolute inset-0 w-full h-full pointer-events-none"
+    />
   )
 }

@@ -17,12 +17,11 @@ export default function LogosSection() {
       </p>
       <div className="overflow-hidden">
         <div className="logo-ticker flex w-max">
-          {logos.map(logo => (
-            <img key={logo.alt} src={logo.src} alt={logo.alt} className={logoClass} />
-          ))}
-          {logos.map(logo => (
-            <img key={`${logo.alt}-2`} src={logo.src} alt={logo.alt} className={logoClass} aria-hidden="true" />
-          ))}
+          {[1, 2, 3, 4, 5, 6, 7, 8].flatMap(n =>
+            logos.map(logo => (
+              <img key={`${logo.alt}-${n}`} src={logo.src} alt={n === 1 ? logo.alt : ''} className={logoClass} aria-hidden={n > 1} />
+            ))
+          )}
         </div>
       </div>
     </section>

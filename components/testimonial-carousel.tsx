@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 const testimonials = [
@@ -29,19 +29,26 @@ const testimonials = [
 export default function TestimonialCarousel() {
   const [active, setActive] = useState(0)
   const [direction, setDirection] = useState(1)
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
+
+  const startTimer = useCallback(() => {
+    if (timerRef.current) clearInterval(timerRef.current)
+    timerRef.current = setInterval(() => {
+      setDirection(1)
+      setActive(i => (i + 1) % testimonials.length)
+    }, 5000)
+  }, [])
+
+  useEffect(() => {
+    startTimer()
+    return () => { if (timerRef.current) clearInterval(timerRef.current) }
+  }, [startTimer])
 
   const go = (next: number) => {
     setDirection(next > active ? 1 : -1)
     setActive(next)
+    startTimer()
   }
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setDirection(1)
-      setActive(i => (i + 1) % testimonials.length)
-    }, 6000)
-    return () => clearInterval(timer)
-  }, [])
 
   return (
     <section className="bg-white py-16 md:py-24 border-t border-[#e8e8e8]">

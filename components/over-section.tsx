@@ -9,7 +9,7 @@ const stats = [
 ]
 
 const alineas = [
-  'Ik werk als creatief strateeg en interim creatief directeur vanuit Den Haag. Twintig jaar ervaring in het vak — van merkidentiteit en campagnestrategie tot digitale producten en organisatie-advies.',
+  'Ik werk als creatief strateeg en interim creatief directeur, gebaseerd in Den Haag, werkzaam door heel Nederland. Twintig jaar ervaring in het vak — van merkidentiteit en campagnestrategie tot digitale producten en organisatie-advies.',
   'Mijn werkwijze is direct en persoonlijk. Geen bureau-overhead, geen account-management-laag. Ik schakel rechtstreeks met directie, marketing en de creatieve teams die het werk uitvoeren.',
   'Ik neem opdrachten aan waarbij strategie en uitvoering samenkomen — en waarbij het ertoe doet. Vastgelopen merken, ambitieuze lanceringen, creatief leiderschap dat wegviel.',
 ]

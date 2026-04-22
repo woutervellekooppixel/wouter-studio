@@ -54,5 +54,5 @@ body {
 }
 
 .logo-ticker {
-  animation: logoTicker 25s linear infinite;
+  animation: logoTicker 60s linear infinite;
 }
