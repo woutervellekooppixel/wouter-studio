@@ -1,6 +1,9 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import Script from 'next/script'
 import Nav from '@/components/nav'
+
+const GA_ID = 'G-Y6FB719MPJ'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://wouter.studio'),
@@ -65,6 +68,16 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(professionalServiceJsonLd) }}
         />
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="ga4-init" strategy="afterInteractive">
+          {`window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${GA_ID}');`}
+        </Script>
         <Nav />
         <main className="flex-1 pt-16">{children}</main>
       </body>
