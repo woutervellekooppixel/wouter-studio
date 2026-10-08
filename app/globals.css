@@ -1,58 +1,120 @@
 @import "tailwindcss";
 
-@theme inline {
-  --color-background: #ffffff;
-  --color-foreground: #111111;
-  --color-accent: #C4714A;
-  --color-muted: #999999;
-  --color-border: #e8e8e8;
+/* Typografische opzet naar martinweigel.org: gemeten waarden (okt 2026) */
+:root {
+  --paper: #fbf2e9;
+  --ink: #1c1a17;
+  --muted: #5c564d;
+  --accent: #2828e6;
+  --line: rgba(92, 86, 77, 0.18);
+  --wrap: 1100px;
+  --gutter: clamp(20px, 6vw, 170px);
 }
 
+html { scroll-padding-top: 110px; }
+
 body {
-  background-color: #ffffff;
-  color: #111111;
-  font-family: ui-sans-serif, system-ui, sans-serif;
-  font-size: 17px;
-  line-height: 1.75;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 19.2px;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+::selection { background: var(--accent); color: var(--paper); }
+
+.wrap { max-width: calc(var(--wrap) + 2 * var(--gutter)); margin: 0 auto; padding-inline: var(--gutter); }
+
+/* Header */
+.site-header { position: sticky; top: 0; z-index: 10; background: var(--paper); border-bottom: 1px solid var(--line); }
+.site-header .wrap { height: 91px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.logo { font-family: var(--font-mono), monospace; font-weight: 600; font-size: 14px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink); text-decoration: none; white-space: nowrap; }
+.nav { display: flex; gap: 36px; }
+.nav a { font-family: var(--font-mono), monospace; font-weight: 300; font-size: 12.5px; letter-spacing: 0.02em; text-transform: uppercase; color: #5b554c; text-decoration: none; padding: 4px 0; border-bottom: 1px solid transparent; transition: color .15s, border-color .15s; }
+.nav a:hover { color: var(--ink); border-color: var(--accent); }
+
+/* Hero */
+.hero { min-height: calc(100svh - 92px); display: flex; align-items: center; padding-block: 72px; }
+.hero .wrap { width: 100%; }
+.hero h1 { font-family: var(--font-sans), sans-serif; font-weight: 600; font-size: clamp(52px, 6.45vw, 92.8px); line-height: 1.1; letter-spacing: -0.03em; margin: 0; }
+.hero .stelling { font-family: var(--font-serif), serif; font-style: italic; font-weight: 400; font-size: clamp(36px, 4.17vw, 60px); line-height: 1.1; letter-spacing: -0.03em; margin: 28px 0 0; }
+.accent { color: var(--accent); }
+.hero .intro { color: var(--muted); max-width: 656px; margin: 84px 0 0; }
+.hero .intro strong, .tekst strong { font-weight: 600; }
+.acties { display: flex; flex-wrap: wrap; align-items: center; gap: 22px 56px; margin-top: 56px; }
+
+.knop { display: inline-block; background: var(--ink); color: var(--paper); font-family: var(--font-mono), monospace; font-weight: 500; font-size: 14.3px; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; padding: 15px 28px; transition: background .15s; }
+.knop:hover { background: var(--accent); }
+.link-mono { font-family: var(--font-mono), monospace; font-size: 14.3px; letter-spacing: 0.08em; color: var(--ink); text-decoration: none; padding: 4.8px 0; border-bottom: 1px solid var(--ink); transition: color .15s, border-color .15s; }
+.link-mono:hover { color: var(--accent); border-color: var(--accent); }
+
+/* Secties, opgebouwd als de subpagina's */
+.sectie { padding-block: 112px; border-top: 1px solid var(--line); }
+.eyebrow { display: flex; align-items: center; gap: 16px; font-family: var(--font-mono), monospace; font-weight: 600; font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin: 0 0 22px; }
+.eyebrow::after { content: ""; width: 48px; height: 1px; background: var(--accent); opacity: .6; }
+.kop { font-family: var(--font-sans), sans-serif; font-weight: 600; font-size: clamp(34px, 3.4vw, 48px); line-height: 1.1; letter-spacing: -0.025em; margin: 0 0 56px; max-width: 820px; text-wrap: balance; }
+.kop em { font-style: italic; }
+
+/* Namen: twee kolommen met haarlijnen */
+.namen { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 24px; max-width: 820px; }
+.namen li { font-family: var(--font-sans), sans-serif; font-weight: 500; font-size: clamp(19px, 1.6vw, 23px); letter-spacing: -0.01em; padding: 14px 0; border-bottom: 1px solid var(--line); }
+
+/* Werk: regels met jaren */
+.werk { margin: 0; padding: 0; list-style: none; max-width: 980px; border-top: 1px solid var(--line); }
+.werk li { display: grid; grid-template-columns: minmax(0, 1.2fr) 150px minmax(0, 1.4fr); gap: 8px 24px; align-items: baseline; padding: 18px 0; border-bottom: 1px solid var(--line); }
+.werk .naam { font-family: var(--font-sans), sans-serif; font-weight: 600; font-size: 19px; letter-spacing: -0.01em; }
+.werk .jaren { font-family: var(--font-mono), monospace; font-size: 13px; letter-spacing: 0.04em; color: var(--accent); font-variant-numeric: tabular-nums; }
+.werk .wat { color: var(--muted); font-size: 17.5px; }
+
+/* Situaties en samenwerken */
+.punten { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 48px; max-width: 980px; }
+.punt { padding: 26px 0 30px; border-top: 1px solid var(--line); }
+.punt h3 { font-family: var(--font-sans), sans-serif; font-weight: 600; font-size: 22px; letter-spacing: -0.015em; line-height: 1.25; margin: 0 0 10px; }
+.punt p { color: var(--muted); margin: 0; font-size: 18px; }
+.subkop { font-family: var(--font-sans), sans-serif; font-weight: 600; font-size: clamp(26px, 2.4vw, 32px); letter-spacing: -0.02em; line-height: 1.15; margin: 96px 0 32px; }
+.subkop em { font-style: italic; }
+
+/* In hun woorden: kaarten als op /endorsements */
+.woorden { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; align-items: start; }
+.woord { border: 1px solid var(--line); padding: 38px 38px 34px; margin: 0; }
+.woord blockquote { margin: 0; font-style: italic; font-size: 19px; line-height: 1.6; letter-spacing: -0.01em; }
+.woord figcaption { margin-top: 40px; font-family: var(--font-mono), monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; line-height: 1.6; }
+.woord .wie { display: block; font-weight: 600; color: var(--ink); }
+.woord .rol { display: block; color: var(--accent); }
+
+/* Over */
+.tekst { max-width: 700px; color: var(--muted); }
+.tekst p { margin: 0 0 22px; }
+
+/* Contact */
+.contact-regels { display: flex; flex-direction: column; gap: 6px; margin: 0 0 40px; }
+.contact-regels a { font-family: var(--font-sans), sans-serif; font-weight: 600; font-size: clamp(30px, 4vw, 56px); letter-spacing: -0.03em; line-height: 1.15; color: var(--ink); text-decoration: none; width: fit-content; border-bottom: 2px solid transparent; transition: color .15s, border-color .15s; }
+.contact-regels a:hover { color: var(--accent); border-color: var(--accent); }
+.plaats { color: var(--muted); margin: 32px 0 0; }
+
+.site-footer { border-top: 1px solid var(--line); }
+.site-footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding-block: 28px; font-family: var(--font-mono), monospace; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+
+@media (max-width: 900px) {
+  .nav { gap: 20px; }
+}
+@media (max-width: 720px) {
+  .site-header .wrap { height: auto; padding-block: 18px; flex-direction: column; align-items: flex-start; gap: 10px; }
+  .nav { gap: 18px; flex-wrap: wrap; }
+  html { scroll-padding-top: 120px; }
+  .hero { min-height: 0; padding-block: 64px 80px; }
+  .hero .intro { margin-top: 48px; }
+  .sectie { padding-block: 72px; }
+  .namen, .punten, .woorden { grid-template-columns: minmax(0, 1fr); }
+  .werk li { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+  .woord { padding: 28px 24px; }
 }
 
-.typewriter-cursor {
-  display: inline-block;
-  margin-left: 1px;
-  font-weight: 300;
-  animation: blink 0.75s step-end infinite;
-}
-
-@keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.animate-fade-in {
-  animation: fade-in 0.5s ease;
-}
-
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-25%); }
-}
-
-.animate-marquee {
-  animation: marquee 24s linear infinite;
-}
-
-@keyframes logoTicker {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
-
-.logo-ticker {
-  animation: logoTicker 60s linear infinite;
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+  html { scroll-behavior: auto; }
 }

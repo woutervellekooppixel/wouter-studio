@@ -2,11 +2,12 @@ export const revalidate = 3600
 
 const body = `# Wouter Vellekoop
 
-> Wouter Vellekoop is creatief strateeg en interim creatief directeur, gebaseerd in Den Haag en werkzaam door heel Nederland, met twintig jaar ervaring in het vak. Via wouter.studio biedt hij creatieve aansturing bij rebranding, fusies en reorganisaties — solo, zonder bureau en zonder overhead. Diensten: interim creatief directeur, rebranding & huisstijl, bureaubegeleiding en advies over AI & design.
+> Wouter Vellekoop is creatief directeur en ontwerper in Den Haag, werkzaam door heel Nederland, met twintig jaar ervaring. Hij werkt freelance per uur of interim, direct met directie en marketing. Gewerkt voor onder meer Ahoy, Bouwinvest, World Trade Center Rotterdam en The Hague, Olympisch Stadion, Cushman & Wakefield, de Rijksoverheid, Gemeente Den Haag, Greenpeace en de Vrije Academie. Hij gebruikt AI dagelijks in zijn productie en helpt teams het verantwoord in te zetten.
 
 ## Links
 
-- [wouter.studio](https://wouter.studio): Website van Wouter Vellekoop — creatief strateeg & interim creatief directeur.
+- [wouter.studio](https://wouter.studio): website van Wouter Vellekoop, creatief directeur.
+- [LinkedIn](https://www.linkedin.com/in/woutervellekoop/)
 `
 
 export async function GET() {
