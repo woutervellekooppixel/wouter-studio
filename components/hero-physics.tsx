@@ -20,6 +20,31 @@ const DIKTE = 0.45
 const RAND = 0.08
 const HALF = DIKTE / 2 + RAND
 
+// Composities per woord, als fracties van de hero (x van links, y van boven).
+// De tekst staat links-midden, dus de composities liggen rechts of langs de randen.
+const composities: Record<string, [number, number][]> = {
+  team: [
+    [0.64, 0.24], [0.74, 0.18], [0.85, 0.26], [0.68, 0.42], [0.79, 0.4], [0.9, 0.44], [0.63, 0.62],
+    [0.74, 0.6], [0.85, 0.64], [0.94, 0.7], [0.7, 0.8], [0.81, 0.84], [0.58, 0.88], [0.92, 0.12],
+  ],
+  merk: [
+    [0.72, 0.36], [0.79, 0.34], [0.86, 0.38], [0.69, 0.48], [0.76, 0.47], [0.83, 0.49], [0.9, 0.5],
+    [0.72, 0.6], [0.79, 0.59], [0.86, 0.61], [0.76, 0.71], [0.83, 0.72], [0.79, 0.23], [0.69, 0.25],
+  ],
+  fusie: [
+    [0.6, 0.2], [0.68, 0.16], [0.64, 0.32], [0.72, 0.28], [0.68, 0.43], [0.77, 0.4], [0.58, 0.5],
+    [0.82, 0.55], [0.9, 0.52], [0.86, 0.66], [0.94, 0.63], [0.9, 0.78], [0.97, 0.88], [0.78, 0.7],
+  ],
+  rebranding: [
+    [0.06, 0.12], [0.3, 0.08], [0.52, 0.07], [0.95, 0.1], [0.66, 0.3], [0.88, 0.34], [0.72, 0.56],
+    [0.95, 0.6], [0.6, 0.78], [0.82, 0.82], [0.4, 0.93], [0.12, 0.9], [0.98, 0.92], [0.04, 0.5],
+  ],
+  organisatie: [
+    ...Array.from({ length: 12 }, (_, i) => [0.6 + (i % 4) * 0.1, 0.26 + Math.floor(i / 4) * 0.22] as [number, number]),
+    [0.06, 0.1], [0.06, 0.9],
+  ],
+}
+
 export default function HeroPhysics() {
   const ref = useRef<HTMLCanvasElement>(null)
 
@@ -104,6 +129,14 @@ export default function HeroPhysics() {
       }
       formaat()
 
+      // Fractie van de hero naar een punt op het tafelblad. Mobiel: strook onder de knoppen.
+      const naarWereld = ([fx, fy]: [number, number], mob: boolean) => {
+        if (!mob) return { x: (fx * 2 - 1) * (halfW - 1), y: (1 - fy * 2) * (halfH - 1) }
+        const x = Math.min(0.95, Math.max(0.05, 0.08 + ((fx - 0.55) / 0.45) * 0.84))
+        const y = Math.min(1, Math.max(0, fy))
+        return { x: (x * 2 - 1) * (halfW - 0.6), y: -halfH + 0.6 + (1 - y) * 1.6 }
+      }
+
       // Geometrie en botsvormen
       const prismaVorm = (pts: Pt[]) => {
         const n = pts.length
@@ -164,17 +197,9 @@ export default function HeroPhysics() {
           body.addShape(scaleShape(CANNON, shape, schaal))
         }
         // Op mobiel landen ze in de strook onder de knoppen
-        // Desktop: rondom de tekst landen (tekst staat links-midden), niet erachter
-        let x = 0, y = 0
-        if (mobiel) {
-          x = (Math.random() * 2 - 1) * (halfW - 0.8)
-          y = -halfH + 0.7 + Math.random() * 1.4
-        } else {
-          do {
-            x = (Math.random() * 2 - 1) * (halfW - 1.2)
-            y = (Math.random() * 2 - 1) * (halfH - 1.2)
-          } while (x < halfW * 0.25 && x > -halfW * 0.85 && y > -halfH * 0.55 && y < halfH * 0.75)
-        }
+        const doel = naarWereld(composities.team[i % 14], mobiel)
+        const x = doel.x + (Math.random() - 0.5) * 0.6
+        const y = doel.y + (Math.random() - 0.5) * 0.6
         body.position.set(x, y, stil ? HALF * schaal : 3 + Math.random() * 7)
         if (!stil) body.quaternion.setFromEuler(Math.random() * 3, Math.random() * 3, Math.random() * 3)
         else body.quaternion.setFromEuler(0, 0, Math.random() * Math.PI)
@@ -252,13 +277,24 @@ export default function HeroPhysics() {
       hero.addEventListener('touchstart', onTouch, { passive: false })
       hero.addEventListener('touchmove', onTouch, { passive: false })
 
-      // Bij elk nieuw woord wippen de vormen even op
-      const onWoord = () => {
-        if (stil) return
-        stukken.forEach(({ body }) => {
+      // Bij elk nieuw woord springt elke vorm in een boog naar zijn plek in de nieuwe compositie
+      const VLUCHT = 0.85
+      const onWoord = (e: Event) => {
+        const woord = (e as CustomEvent<string>).detail
+        const punten = composities[woord]
+        if (!punten || stil) return
+        const g = -world.gravity.z
+        stukken.forEach(({ body }, i) => {
+          if (koppeling && koppeling.bodyA === body) return
+          const doel = naarWereld(punten[i % punten.length], mobiel)
           body.wakeUp()
-          body.velocity.z += 3 + Math.random() * 2
-          body.angularVelocity.z += (Math.random() - 0.5) * 2
+          const k = 1 / (1 - body.linearDamping * VLUCHT)
+          body.velocity.set(
+            ((doel.x - body.position.x) / VLUCHT) * k,
+            ((doel.y - body.position.y) / VLUCHT) * k,
+            (g * VLUCHT) / 2 + (HALF * schaal - body.position.z) / VLUCHT,
+          )
+          body.angularVelocity.set((Math.random() - 0.5) * 8, (Math.random() - 0.5) * 8, (Math.random() - 0.5) * 4)
         })
       }
       window.addEventListener('hero-woord', onWoord)
