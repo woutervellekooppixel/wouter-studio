@@ -15,6 +15,9 @@ const vormen: Record<string, Pt[] | 'schijf'> = {
   ruit: [[0, 1.05], [-0.65, 0], [0, -1.05], [0.65, 0]],
   schijf: 'schijf',
 }
+const volgendeVorm: Record<string, string> = {
+  driehoek: 'ruit', ruit: 'rechthoek', rechthoek: 'vierkant', vierkant: 'schijf', schijf: 'driehoek',
+}
 const kleuren = ['#f3f3f1', '#dadad7', '#f3f3f1', '#9a9a97', '#161616', '#dadad7', '#f3f3f1']
 const DIKTE = 0.45
 const RAND = 0.08
@@ -37,11 +40,11 @@ const composities: Record<string, [number, number][]> = {
   ],
   rebranding: [
     [0.06, 0.12], [0.3, 0.08], [0.52, 0.07], [0.95, 0.1], [0.66, 0.3], [0.88, 0.34], [0.72, 0.56],
-    [0.95, 0.6], [0.6, 0.78], [0.82, 0.82], [0.4, 0.93], [0.12, 0.9], [0.98, 0.92], [0.04, 0.5],
+    [0.95, 0.6], [0.6, 0.78], [0.82, 0.82], [0.4, 0.95], [0.56, 0.52], [0.98, 0.92], [0.5, 0.3],
   ],
   organisatie: [
-    ...Array.from({ length: 12 }, (_, i) => [0.6 + (i % 4) * 0.1, 0.26 + Math.floor(i / 4) * 0.22] as [number, number]),
-    [0.06, 0.1], [0.06, 0.9],
+    ...Array.from({ length: 12 }, (_, i) => [0.705 + (i % 4) * 0.088, 0.28 + Math.floor(i / 4) * 0.22] as [number, number]),
+    [0.45, 0.94], [0.5, 0.08],
   ],
 }
 
@@ -176,8 +179,20 @@ export default function HeroPhysics() {
       const aantal = mobiel ? 6 : 14
       const schaal = mobiel ? 0.72 : 1.2
 
-      type Stuk = { mesh: T.Mesh; body: C.Body }
+      // doel: waar de vorm na de sprong naartoe schuift (plat, met deze draaiing)
+      type Doel = { x: number; y: number; yaw: number; vanaf: number; tot: number }
+      type Stuk = { mesh: T.Mesh; body: C.Body; naam: string; doel: Doel | null }
       const stukken: Stuk[] = []
+      const kantel = new CANNON.Quaternion()
+      kantel.setFromEuler(Math.PI / 2, 0, 0)
+      const zetBotsing = (body: C.Body, naam: string) => {
+        while (body.shapes.length) body.removeShape(body.shapes[0])
+        const s = scaleShape(CANNON, botsing[naam](), schaal)
+        // cannon-cilinders liggen langs de Y-as; kantel de schijf naar de Z-as
+        if (naam === 'schijf') body.addShape(s, new CANNON.Vec3(), kantel)
+        else body.addShape(s)
+        body.updateMassProperties()
+      }
       for (let i = 0; i < aantal; i++) {
         const naam = namen[i % namen.length]
         const mesh = new THREE.Mesh(geo[naam], materialen[i % materialen.length])
@@ -186,16 +201,8 @@ export default function HeroPhysics() {
         mesh.scale.setScalar(schaal)
         scene.add(mesh)
 
-        const shape = botsing[naam]()
         const body = new CANNON.Body({ mass: 1, material: mat, linearDamping: 0.08, angularDamping: 0.12 })
-        if (naam === 'schijf') {
-          // cannon-cilinders liggen langs de Y-as; kantel naar de Z-as
-          const q = new CANNON.Quaternion()
-          q.setFromEuler(Math.PI / 2, 0, 0)
-          body.addShape(scaleShape(CANNON, shape, schaal), new CANNON.Vec3(), q)
-        } else {
-          body.addShape(scaleShape(CANNON, shape, schaal))
-        }
+        zetBotsing(body, naam)
         // Op mobiel landen ze in de strook onder de knoppen
         const doel = naarWereld(composities.team[i % 14], mobiel)
         const x = doel.x + (Math.random() - 0.5) * 0.6
@@ -206,7 +213,11 @@ export default function HeroPhysics() {
         body.sleepSpeedLimit = 0.15
         world.addBody(body)
         mesh.userData.body = body
-        stukken.push({ mesh, body })
+        const nu = performance.now()
+        stukken.push({
+          mesh, body, naam,
+          doel: { x: doel.x, y: doel.y, yaw: Math.random() * Math.PI, vanaf: nu + 1500, tot: nu + 4500 },
+        })
       }
 
       // Pakken en gooien
@@ -238,6 +249,8 @@ export default function HeroPhysics() {
         if (!hit) return
         e.preventDefault()
         hit.body.wakeUp()
+        const st = stukken.find((s) => s.body === hit.body)
+        if (st) st.doel = null
         const lokaal = hit.body.pointToLocalFrame(new CANNON.Vec3(hit.p.x, hit.p.y, hit.p.z))
         raycaster.ray.intersectPlane(tilVlak, punt)
         greep.position.set(punt.x, punt.y, punt.z)
@@ -284,9 +297,23 @@ export default function HeroPhysics() {
         const punten = composities[woord]
         if (!punten || stil) return
         const g = -world.gravity.z
-        stukken.forEach(({ body }, i) => {
+        const recht = woord === 'merk' || woord === 'organisatie'
+        const nu = performance.now()
+        stukken.forEach((st, i) => {
+          const { body } = st
           if (koppeling && koppeling.bodyA === body) return
+          // Rebranding: elke vorm wisselt van soort
+          if (woord === 'rebranding') {
+            st.naam = volgendeVorm[st.naam]
+            st.mesh.geometry = geo[st.naam]
+            zetBotsing(body, st.naam)
+          }
           const doel = naarWereld(punten[i % punten.length], mobiel)
+          st.doel = {
+            x: doel.x, y: doel.y,
+            yaw: recht ? 0 : Math.random() * Math.PI * 2,
+            vanaf: nu + VLUCHT * 850, tot: nu + VLUCHT * 1000 + 2600,
+          }
           body.wakeUp()
           const k = 1 / (1 - body.linearDamping * VLUCHT)
           body.velocity.set(
@@ -314,6 +341,7 @@ export default function HeroPhysics() {
       const io = new IntersectionObserver(([e]) => { zichtbaar = e.isIntersecting })
       io.observe(hero)
 
+      const doelQ = new CANNON.Quaternion()
       let laatst = performance.now()
       let raf = 0
       const lus = (nu: number) => {
@@ -321,6 +349,19 @@ export default function HeroPhysics() {
         const dt = Math.min(0.05, (nu - laatst) / 1000)
         laatst = nu
         if (!zichtbaar) return
+        // Na de landing: het laatste stukje naar de exacte plek schuiven en plat draaien
+        for (const st of stukken) {
+          const d = st.doel
+          if (!d || nu < d.vanaf) continue
+          if (nu > d.tot) { st.doel = null; continue }
+          const b = st.body
+          b.wakeUp()
+          b.velocity.x += ((d.x - b.position.x) * 6 - b.velocity.x) * 0.2
+          b.velocity.y += ((d.y - b.position.y) * 6 - b.velocity.y) * 0.2
+          doelQ.setFromEuler(0, 0, d.yaw)
+          b.quaternion.slerp(doelQ, 0.09, b.quaternion)
+          b.angularVelocity.scale(0.8, b.angularVelocity)
+        }
         world.step(1 / 60, dt, 3)
         for (const { mesh, body } of stukken) {
           mesh.position.set(body.position.x, body.position.y, body.position.z)
