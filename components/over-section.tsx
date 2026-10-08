@@ -9,10 +9,9 @@ const stats = [
 ]
 
 const alineas = [
-  'Ik ontwerp al twintig jaar merken, en blijf ze vaak jarenlang bewaken: zes jaar voor World Trade Center, twaalf edities van het magazine van de Vrije Academie.',
-  'Ik werk direct met directie en marketing, zonder bureau ertussen.',
-  'Ik ben ook fotograaf, voor artiesten en grote podia. Daardoor maak ik vaak zelf het beeld bij een merk.',
-  'En ik werk elke dag met AI. Het neemt het productiewerk over. De keuzes maak ik zelf.',
+  'Twintig jaar lang bouw en leid ik merken voor organisaties als World Trade Center, Bouwinvest, Ahoy en de Rijksoverheid. Ik stap in waar creatieve leiding ontbreekt of vastloopt, en geef een merk weer richting.',
+  'Ik werk op directieniveau en blijf dicht bij het werk. Ik vertaal ambities naar heldere keuzes, stuur bureaus en teams aan en bewaak de kwaliteit tot in de laatste uiting.',
+  'Ik denk niet alleen mee, ik heb het vroeger ook echt gemaakt. Als ontwerper en met AI als vast onderdeel van mijn werk. Daardoor gaan trajecten sneller, zonder dat het niveau zakt.',
 ]
 
 export default function OverSection() {
