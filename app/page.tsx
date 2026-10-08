@@ -1,3 +1,5 @@
+import Image from 'next/image'
+
 const namen = [
   'Ahoy',
   'Bouwinvest',
@@ -15,6 +17,7 @@ const namen = [
   'Luminiscence',
   'Dutch Classics',
   'LUSTR',
+  'ZZP All Day',
 ]
 
 const werk = [
@@ -175,6 +178,15 @@ export default function HomePage() {
       <section className="sectie" id="over">
         <div className="wrap">
           <p className="eyebrow">Over</p>
+          <figure className="portret">
+            <Image
+              src="/wouter-portret.jpg"
+              alt="Wouter Vellekoop"
+              width={1279}
+              height={1600}
+              sizes="(max-width: 720px) 100vw, 460px"
+            />
+          </figure>
           <h2 className="kop">Twintig jaar merken bouwen en bewaken.</h2>
           <div className="tekst">
             <p>

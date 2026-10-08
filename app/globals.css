@@ -84,7 +84,9 @@ body {
 .woord .wie { display: block; font-weight: 600; color: var(--ink); }
 .woord .rol { display: block; color: var(--accent); }
 
-/* Over */
+/* Over: portret met witte rand, als op martinweigel.org/about */
+.portret { margin: 0 0 44px; max-width: 460px; background: #fff; padding: 7px; }
+.portret img { display: block; width: 100%; height: auto; }
 .tekst { max-width: 700px; color: var(--muted); }
 .tekst p { margin: 0 0 22px; }
 
