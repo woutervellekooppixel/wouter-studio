@@ -92,6 +92,7 @@ export function RotatingTypewriter({
         }
         w = (w + 1) % words.length
         const next = words[w]
+        window.dispatchEvent(new CustomEvent('hero-woord', { detail: next }))
         await wait(250)
         for (let i = 1; i <= next.length; i++) {
           if (cancelled) return
