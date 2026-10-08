@@ -20,7 +20,6 @@ const namen = [
 const werk = [
   { naam: 'World Trade Center Rotterdam & The Hague', jaren: '2020 tot nu', wat: 'Het merk, ruim 800 uitingen' },
   { naam: 'Vrije Academie', jaren: '2021 tot nu', wat: 'Huisstijl en het magazine, twaalf edities' },
-  { naam: 'JCV Makelaars', jaren: '2013 tot nu', wat: 'Alles wat naar buiten gaat' },
   { naam: 'Bouwinvest', jaren: '2023 tot nu', wat: 'Onderzoek, gidsen, gebouwmerken' },
   { naam: 'Olympisch Stadion', jaren: '2024 tot nu', wat: 'Logo en uitingen in het stadion' },
   { naam: 'Cushman & Wakefield', jaren: '2026', wat: 'Brandguide FIRST Rotterdam' },
@@ -181,7 +180,7 @@ export default function HomePage() {
             <p>
               Ik ben Wouter Vellekoop. Ik ontwerp al twintig jaar merken, en blijf ze vaak jarenlang
               bewaken: zes jaar voor World Trade Center, twaalf edities van het magazine van de Vrije
-              Academie, dertien jaar voor JCV Makelaars.
+              Academie.
             </p>
             <p>Ik werk direct met directie en marketing, zonder bureau ertussen.</p>
             <p>
