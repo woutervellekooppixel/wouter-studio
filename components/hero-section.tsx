@@ -2,7 +2,9 @@
 
 import { useRef, useState, useEffect } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { TypewriterText } from '@/components/motion'
+import { RotatingTypewriter } from '@/components/motion'
+
+const woorden = ['team', 'merk', 'fusie', 'rebranding', 'organisatie']
 import HeroCanvas from '@/components/hero-canvas'
 
 export default function HeroSection() {
@@ -26,11 +28,12 @@ export default function HeroSection() {
       <div className="relative z-10 max-w-5xl mx-auto px-6 py-16 md:py-32 w-full">
 <motion.div style={isMobile ? undefined : { y: h1Y }}>
           <h1
-            className="font-black text-[#111] leading-[1.0] tracking-[-0.03em] mb-10 max-w-2xl"
+            className="font-black text-[#111] leading-[1.0] tracking-[-0.03em] mb-10 max-w-3xl min-h-[4em] md:min-h-[3em]"
             style={{ fontSize: 'clamp(36px, 6vw, 88px)' }}
           >
-            <TypewriterText
-              text="Creatief directeur, tijdelijk in jouw team."
+            <RotatingTypewriter
+              prefix="Creatief directeur, tijdelijk in jouw "
+              words={woorden}
               startDelay={0.3}
               speed={40}
             />
