@@ -25,7 +25,7 @@ function Teller() {
     </p>
   )
 }
-import HeroCanvas from '@/components/hero-canvas'
+import HeroPhysics from '@/components/hero-physics'
 
 export default function HeroSection() {
   const ref = useRef<HTMLElement>(null)
@@ -43,7 +43,7 @@ export default function HeroSection() {
 
   return (
     <section ref={ref} className="relative min-h-[90vh] flex items-center bg-white overflow-hidden px-4 md:px-0">
-      <HeroCanvas />
+      <HeroPhysics />
       <Teller />
 
       <div className="relative z-10 max-w-5xl mx-auto px-6 pt-16 pb-60 md:py-32 w-full">
