@@ -6,22 +6,22 @@ const diensten = [
   {
     label: 'Strategie & leiderschap',
     titel: 'Interim creatief directeur',
-    body: 'Creatieve aansturing die wegvalt of er nooit was, laat sporen na in elk onderdeel van een organisatie. Als tijdelijk creatief directeur breng ik overzicht, richting en continuïteit.',
+    body: 'Je creatief directeur vertrekt, of de rol heeft nooit bestaan. Ik neem het over, houd het werk op niveau en draag het netjes over.',
   },
   {
     label: 'Merk & identiteit',
     titel: 'Rebranding & huisstijl',
-    body: 'Een fusie, een koerswijziging, een merk dat niet meer past. Ik begeleid het hele traject van positionering en merkstrategie tot uitrol naar alle touchpoints.',
+    body: 'Een fusie, een nieuwe koers of een merk dat niet meer past. Ik trek het traject van eerste richting tot de laatste uiting.',
   },
   {
     label: 'Begeleiding',
     titel: 'Bureaubegeleiding',
-    body: 'Een bureau ingehuurd maar de output stelt teleur. Als onafhankelijke partij sla ik de brug — en zorg dat beide partijen dezelfde taal spreken.',
+    body: 'Ik schrijf de briefing, beoordeel wat er binnenkomt en zorg dat bureau en organisatie dezelfde taal spreken.',
   },
   {
     label: 'Technologie & innovatie',
     titel: 'AI & design',
-    body: 'AI verandert het creatieve vak sneller dan de meeste organisaties bijhouden. Als adviseur, begeleider of spreker help ik navigeren.',
+    body: 'Ik gebruik AI elke dag in mijn eigen productie. Ik help teams het in te zetten waar het tijd wint, en het weg te laten waar het kwaliteit kost.',
   },
 ]
 

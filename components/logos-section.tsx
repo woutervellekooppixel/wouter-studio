@@ -1,13 +1,22 @@
-const logos = [
-  { src: '/logos/ahoy.png', alt: 'Ahoy' },
-  { src: '/logos/bouwinvest.png', alt: 'Bouwinvest' },
-  { src: '/logos/lustr', alt: 'Lustr' },
-  { src: '/logos/olympisch-stadion.png', alt: 'Olympisch Stadion' },
-  { src: '/logos/vrije-academie.png', alt: 'Vrije Academie' },
-  { src: '/logos/wtc.png', alt: 'WTC Rotterdam' },
+const namen = [
+  'Ahoy',
+  'Bouwinvest',
+  'World Trade Center Rotterdam',
+  'World Trade Center The Hague',
+  'Olympisch Stadion',
+  'Cushman & Wakefield',
+  'Rijksoverheid',
+  'Gemeente Den Haag',
+  'Greenpeace',
+  'Vrije Academie',
+  '538',
+  'TROS',
+  'Haags Sportgala',
+  'Luminiscence',
+  'Dutch Classics',
+  'LUSTR',
+  'ZZP All Day',
 ]
-
-const logoClass = 'w-32 h-auto object-contain grayscale opacity-60 mx-10 hover:opacity-90 hover:grayscale-0 transition-all duration-300 shrink-0'
 
 export default function LogosSection() {
   return (
@@ -16,10 +25,17 @@ export default function LogosSection() {
         Een greep uit mijn opdrachtgevers
       </p>
       <div className="overflow-hidden">
-        <div className="logo-ticker flex w-max">
-          {[1, 2, 3, 4, 5, 6, 7, 8].flatMap(n =>
-            logos.map(logo => (
-              <img key={`${logo.alt}-${n}`} src={logo.src} alt={n === 1 ? logo.alt : ''} className={logoClass} aria-hidden={n > 1} />
+        <div className="logo-ticker flex w-max items-baseline">
+          {[1, 2].flatMap(n =>
+            namen.map(naam => (
+              <span
+                key={`${naam}-${n}`}
+                aria-hidden={n > 1}
+                className="font-black text-[#bbb] hover:text-[#111] tracking-tight whitespace-nowrap mx-8 transition-colors duration-300"
+                style={{ fontSize: 'clamp(22px, 2.4vw, 34px)' }}
+              >
+                {naam}
+              </span>
             ))
           )}
         </div>

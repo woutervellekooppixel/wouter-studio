@@ -5,9 +5,9 @@ import { motion } from 'framer-motion'
 const items = [
   {
     nr: '01',
-    titel: 'Instappen in complexiteit',
-    body: 'De meeste waarde ontstaat waar het ingewikkeld is. Waar de vraag nog niet helder is, waar eerder iemand het niet kon oplossen.',
-    tag: 'Complexiteit',
+    titel: 'Per uur of interim',
+    body: 'Een paar uur voor een beoordeling of een sessie met je team, of een aantal dagen per week voor langere tijd. We spreken af wat past.',
+    tag: 'Flexibel',
   },
   {
     nr: '02',
@@ -20,6 +20,12 @@ const items = [
     titel: 'Solo, zonder overhead',
     body: 'Geen accountmanager, geen junior die het uitvoert. De samenwerking is direct, persoonlijk en zonder de vertraging die bij een bureau hoort.',
     tag: 'Direct',
+  },
+  {
+    nr: '04',
+    titel: 'Netjes afgerond',
+    body: 'Als ik vertrek, is alles vastgelegd en overgedragen. Het team kan zonder mij verder.',
+    tag: 'Overdracht',
   },
 ]
 

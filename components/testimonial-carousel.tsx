@@ -10,7 +10,7 @@ const testimonials = [
     functie: 'Marketing- & communicatieadviseur',
   },
   {
-    quote: 'Creatief, gedetailleerd, gestructureerd en zeer veelzijdig — of het nu ging om fotografie, websites, verpakkingen of productontwerp, het resultaat was altijd uitstekend.',
+    quote: 'Creatief, gedetailleerd, gestructureerd en zeer veelzijdig. Of het nu ging om fotografie, websites, verpakkingen of productontwerp, het resultaat was altijd uitstekend.',
     naam: 'Nathalie van Wijkvliet',
     functie: 'Communicatieadviseur',
   },

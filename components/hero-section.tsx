@@ -30,7 +30,7 @@ export default function HeroSection() {
             style={{ fontSize: 'clamp(36px, 6vw, 88px)' }}
           >
             <TypewriterText
-              text="Vastgelopen op het gebied van design of strategie?"
+              text="Creatief directeur, tijdelijk in jouw team."
               startDelay={0.3}
               speed={40}
             />
@@ -38,12 +38,11 @@ export default function HeroSection() {
         </motion.div>
 
         <p className="text-[17px] text-[#555] max-w-md leading-[1.75] mb-4">
-          Bij rebranding, fusies en reorganisaties is creatieve aansturing
-          vaak het eerste dat ontbreekt — en het laatste waar iemand aan
-          denkt. Daar kom ik in beeld.
+          Twintig jaar merken bouwen en bewaken, voor onder meer Ahoy,
+          Bouwinvest, World Trade Center en de Rijksoverheid.
         </p>
         <p className="text-[14px] text-[#999] mb-12">
-          Solo. Zonder bureau. Zonder overhead.
+          Freelance per uur of interim, in overleg.
         </p>
         <div className="flex flex-wrap gap-4">
           <a

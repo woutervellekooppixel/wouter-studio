@@ -5,13 +5,14 @@ import { motion, useScroll, useTransform } from 'framer-motion'
 
 const stats = [
   { value: '20 jaar', label: 'Ervaring' },
-  { value: 'Freelance/Interim', label: 'Werkwijze' },
+  { value: 'Freelance of interim', label: 'Werkwijze' },
 ]
 
 const alineas = [
-  'Ik werk als creatief strateeg en interim creatief directeur, gebaseerd in Den Haag, werkzaam door heel Nederland. Twintig jaar ervaring in het vak — van merkidentiteit en campagnestrategie tot digitale producten en organisatie-advies.',
-  'Mijn werkwijze is direct en persoonlijk. Geen bureau-overhead, geen account-management-laag. Ik schakel rechtstreeks met directie, marketing en de creatieve teams die het werk uitvoeren.',
-  'Ik neem opdrachten aan waarbij strategie en uitvoering samenkomen — en waarbij het ertoe doet. Vastgelopen merken, ambitieuze lanceringen, creatief leiderschap dat wegviel.',
+  'Ik ontwerp al twintig jaar merken, en blijf ze vaak jarenlang bewaken: zes jaar voor World Trade Center, twaalf edities van het magazine van de Vrije Academie.',
+  'Ik werk direct met directie en marketing, zonder bureau ertussen.',
+  'Ik ben ook fotograaf, voor artiesten en grote podia. Daardoor maak ik vaak zelf het beeld bij een merk.',
+  'En ik werk elke dag met AI. Het neemt het productiewerk over. De keuzes maak ik zelf.',
 ]
 
 export default function OverSection() {
@@ -44,7 +45,7 @@ export default function OverSection() {
           {/* Foto links — parallax */}
           <div className="relative overflow-hidden aspect-[3/4]">
             <motion.img
-              src="/wouter.png"
+              src="/wouter-portret.jpg"
               alt="Wouter Vellekoop"
               className="absolute inset-0 w-full h-full object-cover object-top scale-[1.18]"
               style={isMobile ? undefined : { y }}
