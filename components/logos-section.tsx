@@ -5,7 +5,6 @@ const namen = [
   'Olympisch Stadion',
   'Cushman & Wakefield',
   'Rijksoverheid',
-  'Greenpeace',
   'World Trade Center The Hague',
   'Vrije Academie',
   'Gemeente Den Haag',
