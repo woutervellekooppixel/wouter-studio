@@ -46,7 +46,7 @@ export default function HeroSection() {
       <HeroCanvas />
       <Teller />
 
-      <div className="relative z-10 max-w-5xl mx-auto px-6 py-16 md:py-32 w-full">
+      <div className="relative z-10 max-w-5xl mx-auto px-6 pt-16 pb-60 md:py-32 w-full">
 <motion.div style={isMobile ? undefined : { y: h1Y }}>
           <h1
             className="font-black text-[#111] leading-[1.0] tracking-[-0.03em] mb-10 max-w-3xl min-h-[4em] md:min-h-[3em]"
