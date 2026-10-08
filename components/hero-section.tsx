@@ -55,6 +55,7 @@ export default function HeroSection() {
             <RotatingTypewriter
               prefix="Creatief directeur, tijdelijk in jouw "
               words={woorden}
+              hold={3000}
               startDelay={0.3}
               speed={40}
             />

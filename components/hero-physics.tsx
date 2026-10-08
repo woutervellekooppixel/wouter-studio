@@ -216,9 +216,11 @@ export default function HeroPhysics() {
         const nu = performance.now()
         stukken.push({
           mesh, body, naam,
-          doel: { x: doel.x, y: doel.y, yaw: Math.random() * Math.PI, vanaf: nu + 1500, tot: nu + 4500 },
+          doel: { x: doel.x, y: doel.y, yaw: Math.random() * Math.PI, vanaf: nu + 900, tot: nu + 4500 },
         })
       }
+
+      if (process.env.NODE_ENV !== 'production') (window as unknown as { __stukken: unknown }).__stukken = stukken
 
       // Pakken en gooien
       const raycaster = new THREE.Raycaster()
@@ -290,13 +292,12 @@ export default function HeroPhysics() {
       hero.addEventListener('touchstart', onTouch, { passive: false })
       hero.addEventListener('touchmove', onTouch, { passive: false })
 
-      // Bij elk nieuw woord springt elke vorm in een boog naar zijn plek in de nieuwe compositie
-      const VLUCHT = 0.85
+      // Bij elk nieuw woord: klein wipje, daarna trekt een zachte veer elke vorm
+      // naar zijn plek in de nieuwe compositie (zie preStep hieronder)
       const onWoord = (e: Event) => {
         const woord = (e as CustomEvent<string>).detail
         const punten = composities[woord]
         if (!punten || stil) return
-        const g = -world.gravity.z
         const recht = woord === 'merk' || woord === 'organisatie'
         const nu = performance.now()
         stukken.forEach((st, i) => {
@@ -312,16 +313,10 @@ export default function HeroPhysics() {
           st.doel = {
             x: doel.x, y: doel.y,
             yaw: recht ? 0 : Math.random() * Math.PI * 2,
-            vanaf: nu + VLUCHT * 850, tot: nu + VLUCHT * 1000 + 2600,
+            vanaf: nu + i * 25, tot: nu + 3200 + i * 25,
           }
           body.wakeUp()
-          const k = 1 / (1 - body.linearDamping * VLUCHT)
-          body.velocity.set(
-            ((doel.x - body.position.x) / VLUCHT) * k,
-            ((doel.y - body.position.y) / VLUCHT) * k,
-            (g * VLUCHT) / 2 + (HALF * schaal - body.position.z) / VLUCHT,
-          )
-          body.angularVelocity.set((Math.random() - 0.5) * 8, (Math.random() - 0.5) * 8, (Math.random() - 0.5) * 4)
+          body.velocity.z += 3
         })
       }
       window.addEventListener('hero-woord', onWoord)
@@ -342,6 +337,37 @@ export default function HeroPhysics() {
       io.observe(hero)
 
       const doelQ = new CANNON.Quaternion()
+      const fout = new CANNON.Quaternion()
+      const inv = new CANNON.Quaternion()
+      const VEER = 30
+      const DEMP = 2 * Math.sqrt(VEER)
+      world.addEventListener('preStep', () => {
+        const h = world.dt || 1 / 60
+        const nu = performance.now()
+        for (const st of stukken) {
+          const d = st.doel
+          if (!d || nu < d.vanaf) continue
+          if (nu > d.tot) { st.doel = null; continue }
+          const b = st.body
+          // Rustig in- en uitfaden van de kracht
+          const fase = Math.min(1, (nu - d.vanaf) / 250) * Math.min(1, (d.tot - nu) / 600)
+          b.velocity.x += (VEER * (d.x - b.position.x) - DEMP * b.velocity.x) * h * fase
+          b.velocity.y += (VEER * (d.y - b.position.y) - DEMP * b.velocity.y) * h * fase
+          // Draai naar plat met de gewenste richting, via draaisnelheid in plaats van verspringen
+          doelQ.setFromEuler(0, 0, d.yaw)
+          b.quaternion.conjugate(inv)
+          doelQ.mult(inv, fout)
+          if (fout.w < 0) { fout.x = -fout.x; fout.y = -fout.y; fout.z = -fout.z; fout.w = -fout.w }
+          const hoek = 2 * Math.acos(Math.min(1, fout.w))
+          const s = Math.sqrt(1 - fout.w * fout.w)
+          const k = s > 1e-4 ? (hoek / s) * 7 : 0
+          const t = 0.2 * fase
+          b.angularVelocity.x += (fout.x * k - b.angularVelocity.x) * t
+          b.angularVelocity.y += (fout.y * k - b.angularVelocity.y) * t
+          b.angularVelocity.z += (fout.z * k - b.angularVelocity.z) * t
+          b.wakeUp()
+        }
+      })
       let laatst = performance.now()
       let raf = 0
       const lus = (nu: number) => {
@@ -349,23 +375,11 @@ export default function HeroPhysics() {
         const dt = Math.min(0.05, (nu - laatst) / 1000)
         laatst = nu
         if (!zichtbaar) return
-        // Na de landing: het laatste stukje naar de exacte plek schuiven en plat draaien
-        for (const st of stukken) {
-          const d = st.doel
-          if (!d || nu < d.vanaf) continue
-          if (nu > d.tot) { st.doel = null; continue }
-          const b = st.body
-          b.wakeUp()
-          b.velocity.x += ((d.x - b.position.x) * 6 - b.velocity.x) * 0.2
-          b.velocity.y += ((d.y - b.position.y) * 6 - b.velocity.y) * 0.2
-          doelQ.setFromEuler(0, 0, d.yaw)
-          b.quaternion.slerp(doelQ, 0.09, b.quaternion)
-          b.angularVelocity.scale(0.8, b.angularVelocity)
-        }
         world.step(1 / 60, dt, 3)
         for (const { mesh, body } of stukken) {
-          mesh.position.set(body.position.x, body.position.y, body.position.z)
-          mesh.quaternion.set(body.quaternion.x, body.quaternion.y, body.quaternion.z, body.quaternion.w)
+          const p = body.interpolatedPosition, q = body.interpolatedQuaternion
+          mesh.position.set(p.x, p.y, p.z)
+          mesh.quaternion.set(q.x, q.y, q.z, q.w)
         }
         renderer.render(scene, camera)
       }
