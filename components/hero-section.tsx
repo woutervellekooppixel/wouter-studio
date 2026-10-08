@@ -5,6 +5,26 @@ import { motion, useScroll, useTransform } from 'framer-motion'
 import { RotatingTypewriter } from '@/components/motion'
 
 const woorden = ['team', 'merk', 'fusie', 'rebranding', 'organisatie']
+
+function Teller() {
+  const [i, setI] = useState(0)
+  useEffect(() => {
+    const op = (e: Event) => setI(Math.max(0, woorden.indexOf((e as CustomEvent<string>).detail)))
+    window.addEventListener('hero-woord', op)
+    return () => window.removeEventListener('hero-woord', op)
+  }, [])
+  const w = woorden[i]
+  return (
+    <p
+      aria-hidden="true"
+      className="hidden md:block absolute right-8 bottom-8 z-10 text-[11px] tracking-[0.14em] uppercase text-[#999] tabular-nums"
+    >
+      {String(i + 1).padStart(2, '0')} / {String(woorden.length).padStart(2, '0')}
+      <span className="mx-3 text-[#ccc]">·</span>
+      {w[0].toUpperCase() + w.slice(1)}
+    </p>
+  )
+}
 import HeroCanvas from '@/components/hero-canvas'
 
 export default function HeroSection() {
@@ -24,6 +44,7 @@ export default function HeroSection() {
   return (
     <section ref={ref} className="relative min-h-[90vh] flex items-center bg-white overflow-hidden px-4 md:px-0">
       <HeroCanvas />
+      <Teller />
 
       <div className="relative z-10 max-w-5xl mx-auto px-6 py-16 md:py-32 w-full">
 <motion.div style={isMobile ? undefined : { y: h1Y }}>
