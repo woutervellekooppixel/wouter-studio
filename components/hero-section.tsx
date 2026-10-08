@@ -25,7 +25,7 @@ function Teller() {
     </p>
   )
 }
-import HeroPhysics from '@/components/hero-physics'
+import HeroRaster from '@/components/hero-raster'
 
 export default function HeroSection() {
   const ref = useRef<HTMLElement>(null)
@@ -43,10 +43,10 @@ export default function HeroSection() {
 
   return (
     <section ref={ref} className="relative min-h-[90vh] flex items-center bg-white overflow-hidden px-4 md:px-0">
-      <HeroPhysics />
+      <HeroRaster />
       <Teller />
 
-      <div className="relative z-10 max-w-5xl mx-auto px-6 pt-16 pb-60 md:py-32 w-full">
+      <div className="relative z-10 max-w-5xl mx-auto px-6 pt-16 pb-24 md:py-32 w-full">
 <motion.div style={isMobile ? undefined : { y: h1Y }}>
           <h1
             className="font-black text-[#111] leading-[1.0] tracking-[-0.03em] mb-10 max-w-3xl min-h-[4em] md:min-h-[3em]"
